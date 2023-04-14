@@ -1,0 +1,144 @@
+// buy lyn
+.form-buy-lyn {
+  .list-wallet {
+    .el-select {
+      .el-input__inner {
+        padding-left: 42px;
+      }
+      .suffix {
+        line-height: 48px;
+        margin: 0 8px 0 7px;
+      }
+    }
+  }
+}
+
+.form-deposit {
+  .el-input-group__append {
+    background-color: #f3f2f1;
+  }
+}
+.kyc-content {
+  .el-form-item__label {
+    display: inline-flex;
+    flex-direction: row-reverse;
+    justify-content: start;
+    font-weight: 400;
+    color: var(--bc-text-primary);
+  }
+  .el-form-item__label:before {
+    color: red !important;
+    float: right;
+    margin-left: 4px;
+    // transform: translateX(-627px);
+  }
+  .el-input__inner {
+    height: 48px;
+    font-size: 16px;
+    line-height: 24px;
+    font-weight: 400;
+  }
+  .el-form-item__content {
+    line-height: 20px;
+    font-size: 14px;
+    font-weight: 400;
+  }
+  .el-input.is-disabled .el-input__inner {
+    color: var(--bc-text-primary);
+    border: 1px solid #d2d0ce;
+  }
+  .el-radio__input.is-checked + .el-radio__label {
+    color: var(--bc-text-primary);
+  }
+}
+//verified
+.form-verified {
+  .el-input__inner {
+    height: 48px;
+    width: 340px;
+    border-radius: 4px;
+  }
+}
+//popup change phone
+.form-change-number-phone {
+  .el-input__inner {
+    height: 48px;
+    width: 100%;
+    border-radius: 4px;
+    margin-top: 8px;
+  }
+  .input-new-phone {
+    .el-input__inner {
+      display: inline-block;
+      margin-top: 0px !important;
+      border-radius: 0 4px 4px 0px !important;
+      display: inline-block;
+    }
+    .input-phone {
+      margin-bottom: 0px;
+      width: 382px;
+      .el-input__inner {
+        height: 48px !important;
+      }
+    }
+  }
+}
+//popup verification
+.form-verification {
+  .el-input__inner {
+    height: 48px;
+    width: 100%;
+    border-radius: 4px;
+    margin-top: 8px;
+  }
+  .input-phone {
+    margin-bottom: 0px;
+    .el-input__inner {
+      height: 48px !important;
+    }
+  }
+}
+//popup filter crowdsale
+.popup-filter-crowdsale {
+  .transaction-amount {
+    .el-input__inner {
+      padding-left: 25px;
+    }
+  }
+}
+.bo-crowdsale-transaction {
+  .el-input__inner {
+    color: var(--bc-text-primary);
+  }
+}
+.popup-withdraw-request {
+  .el-dialog__body {
+    background-color: #F6F8FC;
+  }
+}
+.error-amount-border-popup-transaction {
+  .el-input__inner{
+    border-color: #CF202F!important;
+  }
+
+}
+// popup choose
+.popup-choose, .popup-form {
+  .el-radio__inner {
+    display: none;
+  }
+  .choise, .collection {
+    .el-radio.is-bordered.is-checked {
+      border: 2px solid #9D3EF2;
+    }
+  }
+}
+//popup-form 
+.popup-form {
+  .el-textarea {
+    .el-textarea__inner {
+      padding-top: 1.5px;
+      padding-bottom: 1.5px;
+    }
+  }
+}

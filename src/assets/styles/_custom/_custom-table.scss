@@ -1,0 +1,47 @@
+// wallet main
+.bc-wallet {
+    .wallet-table {
+        .table-wallet {
+            .el-table {
+                .el-table__body-wrapper {
+                    height: calc(100vh - 572px);
+                    .el-table__row {
+                        .icon-copy {
+                            &:hover {
+                                .span-icon {
+                                    color: red;
+                                }
+                            }
+                        }
+                    }
+                    @media screen and (max-height: 900px) {
+                        height: unset;
+                    }
+                }
+            }
+        }
+    }
+}
+.wallet-table-balance {
+    .el-table {
+        th > .cell {
+            color: #0a0b0d;
+            font-size: 16px;
+        }
+        &__row {
+            td > .cell {
+                color: #0a0b0d;
+            }
+        }
+    }
+}
+
+.table-trans {
+    .el-table__body-wrapper {
+        .col-email {
+            .cell {
+                height: 46px;
+            }
+        }
+    }
+}

@@ -1,0 +1,122 @@
+.btn {
+    @include button;
+    color: var(--bc-color-white);
+    background-color: var(--bc-theme-primary);
+
+    &:hover {
+        background-color: var(--bc-theme-dark);
+    }
+}
+.btn--disabled {
+    @include button;
+    color: var(--bc-color-white) !important;
+    background-color: var(--bc-btn-disable) !important;
+    pointer-events: none;
+    &:hover {
+        cursor: not-allowed !important;
+        background-color: var(--bc-btn-disable) !important;
+    }
+}
+
+.btn-default {
+    @include button;
+    color: var(--bc-btn-text);
+    background-color: var(--bc-bg-white);
+    border: 1px solid var(--bc-btn-border);
+    width: 120px;
+    padding: 8px;
+    font-weight: 400;
+    &:focus {
+        color: var(--bc-btn-text);
+        border-color: var(--bc-btn-border);
+        background-color: var(--bc-bg-white);
+    }
+    &:hover {
+        color: var(--bc-btn-default-text-hover);
+        border-color: var(--bc-btn-default-border-hover);
+    }
+}
+
+.btn-default-bg {
+    @include button;
+    color: var(--bc-color-white);
+    background-color: var(--bc-btn-bg-default);
+    border: 1px solid transparent;
+    width: 120px;
+    padding: 8px;
+    &:focus {
+        color: var(--bc-color-white);
+        border-color: transparent;
+        background-color: var(--bc-btn-bg-default);
+    }
+    &:hover {
+        background-color: var(--bc-btn-bg-default-hover);
+        color: var(--bc-color-white);
+        border: none;
+    }
+}
+
+.btn-secondary {
+    @include button;
+    font-weight: 400;
+    color: var(--bc-color-grey150);
+    background-color: var(--bc-bg-white);
+    border: 1px solid var(--bc-color-grey90);
+
+    &:hover {
+        color: var(--bc-color-grey190);
+        background-color: var(--bc-color-grey20);
+        border: 1px solid var(--bc-color-grey110);
+    }
+}
+.btn-secondary--disabled {
+    @include button;
+    color: var(--bc-color-grey20);
+    background-color: var(--bc-color-grey20);
+}
+
+.btn-close {
+    width: 100px !important;
+    &:hover {
+        background-color: #fff;
+    }
+}
+
+.btn-reject {
+    width: 100px;
+    background-color: var(--bc-btn-bg-reject) !important;
+    font-weight: 400;
+    &:hover {
+        color: #fff !important;
+        background-color: #b11623 !important;
+    }
+    &:focus {
+        color: #fff !important;
+        border-color: transparent !important;
+    }
+}
+.btn-approve {
+    width: 100px;
+    background-color: var(--bc-btn-bg-approve) !important;
+    font-weight: 400;
+    &:hover {
+        color: #fff !important;
+        background-color: #0b794b !important;
+    }
+    &:focus {
+        color: #fff !important;
+        border-color: transparent !important;
+    }
+}
+
+.btn-h-40 {
+    padding: 11px 20px;
+}
+.btn-h40 {
+    height: 40px;
+}
+
+.btn-delete {
+    border: 1px solid var(--bc-btn-bg-reject);
+    color: var(--bc-status-error);
+}
