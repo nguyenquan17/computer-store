@@ -1,0 +1,62 @@
+.el-overlay-dialog {
+    display: flex;
+    height: 100vh;
+    justify-content: center;
+    .base-popup {
+        border-radius: 8px;
+        overflow: hidden;
+        height: fit-content;
+
+        .el-dialog__header {
+            height: 62px;
+            border-bottom: 1px solid var(--color-border-primary);
+            margin-right: 0;
+            padding: 0 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            .el-dialog__headerbtn {
+                height: 24px;
+                width: 24px;
+                position: initial;
+                i {
+                    font-size: 24px;
+                }
+                &:hover {
+                    i {
+                        color: #0078d4;
+                    }
+                }
+            }
+        }
+        .el-dialog__body {
+            padding: 0;
+            color: var(--color-text);
+            .popup-content {
+                padding: 24px;
+                max-height: 75vh;
+                overflow: auto;
+                padding: 24px;
+                padding-bottom: 0;
+                overflow-y: auto;
+                overflow-x: hidden;
+
+                @media screen and (max-height: 900px) {
+                    max-height: 70vh;
+                }
+            }
+        }
+        .el-dialog__footer {
+            height: 64px;
+            padding: 0 24px;
+            border-top: 1px solid var(--color-border-primary);
+            .popup-footer {
+                height: 100%;
+                display: flex;
+                align-items: center;
+                justify-content: flex-end;
+            }
+        }
+    }
+}

@@ -1,0 +1,56 @@
+:root {
+  --color-text: #0a0b0d;
+  --color-primary: #0151fc;
+
+  //  button
+  --background-button-primary: #0151fc;
+  --background-button-primary-hover: #0a34c7;
+  --text-button-primary: #fff;
+  --background-button-neutral: #eaedf0;
+  --background-button-neutral-hover: #dfe2e7;
+  --text-button-neutral: #081c36;
+  --background-button-secondary: #e5efff;
+  --background-button-secondary-hover: #c7e0ff;
+  --text-button-secondary: #005ae0;
+  --text-button-plain: #3b3a39;
+  --text-button-plain-hover: #0151fc;
+  --background-button-disabled: #8ca4f7;
+
+  //form
+  --color-form-label: #0a0b0d;
+  --color-form-input: #0a0b0d;
+
+  //status
+  --color-status-error: #cf202f;
+  --color-required: #cf202f;
+  --color-status-success: #129961;
+  --color-status-warning: #dd7d00;
+  --color-status-neutral: #a19f9d;
+  --color-status-progressing: #0151fc;
+  --color-status-pending: #dd7d00;
+  --color-status-invited: #dd7d00;
+  --color-status-accept: #129961;
+  --color-status-reject: #cf202f;
+  --color-status-not-verified: #5b616e;
+
+  //color border
+  --color-input-border: #dbdbdb;
+  --color-input-hover-border: #0078d4;
+  --color-input-focus-border: #0078d4;
+  --color-border-primary: #d2d0ce;
+  --color-text-discript: #5b616e;
+  --color-border-input: #dcdfe6;
+
+  //checkbox
+  --color-cb-bg: #c4c4c4;
+  --color-cb-bg-checked: #2050f6;
+  --color-cb-border: #d2d0ce;
+  --color-cb-border-hover: #409eff;
+
+  //override element plus
+  --el-aside-width: 80px;
+  --el-footer-padding: 0 24px;
+
+  //table
+  --table-row-hover: #f3f3f3;
+}

@@ -1,0 +1,78 @@
+.base-pagination {
+    padding: 10px 0;
+    border-top: 1px solid #dbdbdb;
+    .list-paging {
+        .el-pagination {
+            &__sizes {
+                .el-select {
+                    .el-input {
+                        width: 100px;
+                        height: 35px;
+                        font-size: 14px !important;
+                        background-color: #fafafa;
+                        color: var(--color-text);
+                        .el-input__wrapper {
+                            box-shadow: none;
+                            border: 1px solid var(--color-border-primary);
+                            padding-right: 5px;
+                            padding-left: 8px;
+                            background-color: #fafafa;
+                            .el-input__inner {
+                                height: 100%;
+                            }
+                        }
+                        .el-input__wrapper.is-focus {
+                            box-shadow: none !important;
+                        }
+                    }
+                }
+            }
+
+            .btn-prev,
+            .btn-next {
+                background-color: #f4f4f5;
+                border: 1px solid var(--color-border-primary);
+                color: var(--color-text);
+                &:hover {
+                    border-color: var(--color-primary);
+                    color: var(--color-primary);
+                }
+            }
+            .el-pager {
+                .number,
+                .more {
+                    width: 40px;
+                    background-color: #f4f4f5;
+                    border: 1px solid var(--color-border-primary);
+                    color: var(--color-text);
+                    &:hover {
+                        border-color: var(--color-primary);
+                        color: var(--color-primary);
+                    }
+                }
+                .is-active.number {
+                    font-weight: 400;
+                    border-color: var(--color-primary);
+                    color: var(--color-primary);
+                }
+            }
+        }
+    }
+}
+
+.el-select-dropdown.select-pagination {
+    width: 110px;
+    .el-select-dropdown__item {
+        padding: 0 20px;
+        height: 40px;
+        font-size: 14px;
+        &:hover {
+            background-color: #f3f2f1;
+        }
+    }
+    .el-select-dropdown__item.selected {
+        &::after {
+            display: none;
+        }
+    }
+}

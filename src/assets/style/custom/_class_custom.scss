@@ -1,0 +1,67 @@
+.status-not-verified,
+.status-verified,
+.status-success,
+.status-pending {
+    border-radius: 4px;
+    font-size: 12px;
+    width: 96px;
+    height: 24px;
+    line-height: 24px;
+    vertical-align: middle;
+    display: inline-block;
+    text-align: center;
+}
+
+.status-verified,
+.status-success {
+    color: var(--color-status-success);
+    background-color: #e4f9e2;
+}
+.status-not-verified {
+    color: var(--color-status-not-verified);
+    background-color: #f3f2f1;
+}
+
+.status-pending {
+    color: #dd7d00;
+    background-color: #fff3e2;
+}
+
+div {
+    &:hover {
+        &::-webkit-scrollbar {
+            width: 5px;
+            height: 11px;
+        }
+        &::-webkit-scrollbar-thumb {
+            background: #9b9b9b;
+        }
+    }
+
+    &::-webkit-scrollbar {
+        width: 5px;
+        height: 11px;
+        // min-height: 50px;
+        -webkit-transition: width 0.3s;
+        transition: width 0.3s;
+    }
+
+    &::-webkit-scrollbar-track {
+        // background-color: #dbdbdb;
+        background-color: transparent;
+    }
+
+    /* Handle */
+    &::-webkit-scrollbar-thumb {
+        // background: #747474;
+        // background: transparent;
+        background: #9b9b9b;
+
+        border-radius: 5px;
+    }
+
+    /* Handle on hover */
+    &::-webkit-scrollbar-thumb:hover {
+        background: #9b9b9b;
+    }
+}
