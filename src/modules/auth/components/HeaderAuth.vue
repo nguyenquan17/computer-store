@@ -3,7 +3,7 @@
     <img src="/images/logo.png" alt="" />
     <div class="flex items-center">
       <base-icon icon="mail" size="20" />
-      <p class="ml-1 text-sm">support@linkkey.com</p>
+      <p class="ml-1 text-sm">quanna@shop.com</p>
     </div>
   </div>
 </template>

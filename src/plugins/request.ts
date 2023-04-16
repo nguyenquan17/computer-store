@@ -22,6 +22,7 @@ request.interceptors.response.use(
     return response
   },
   error => {
+    console.log(error)
     const { config, data, status } = error.response
 
     if (status === 401 || data.errorCode === 401) {
