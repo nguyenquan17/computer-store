@@ -1,5 +1,5 @@
 <template>
-  <div class="layout-balance shadow-md rounded bg-white">
+  <div class="layout-balance rounded bg-white shadow-md">
     <base-tab :list-tab="getTabBaseToken" :tab-active="tabActive" @click="handleClickTab">
       <template #more-tab>
         <MoreToken @select="handleClickTabMore"></MoreToken>
@@ -8,104 +8,110 @@
 
     <div class="flex justify-between p-6">
       <div
-        class="flex flex-col justify-between basis-[calc(25%-18px)] w-1/5 h-auto border border-solid border-[#dbdbdb] rounded-lg py-0 px-4"
+        class="flex h-auto w-1/5 basis-[calc(25%-18px)] flex-col justify-between rounded-lg border border-solid border-[#dbdbdb] py-0 px-4"
       >
-        <div class="flex justify-between mt-1.5">
+        <div class="mt-1.5 flex justify-between">
           <p>Total Available</p>
-          <base-icon icon="request-icon-withdraw" size="19" color="#CF202F"></base-icon>
+          <base-icon color="#CF202F" icon="request-icon-withdraw" size="19"></base-icon>
         </div>
-        <span class="w-full text-[24px] leading-[24px] mt-2 inline-block font-semibold">
+        <span class="mt-2 inline-block w-full text-[24px] font-semibold leading-[24px]">
           {{ useFormatCurrency(dataSummaryRequest.totalAmount, tabActive) }}
           <span class="text-xs font-normal">{{ tabActive }}</span>
         </span>
-        <p class="text-sm font-normal mt-2 mb-4">${{ useFormatCurrency(dataSummaryRequest.totalAmountUsd, 'USD') }}</p>
+        <p class="mt-2 mb-4 text-sm font-normal">${{ useFormatCurrency(dataSummaryRequest.totalAmountUsd, 'USD') }}</p>
       </div>
     </div>
     <base-filter
-      width-popper="518"
-      width-dropdown="180"
-      :sort-active="filter.orderBy"
+      ref="refFilter"
       :list-sort="listSort"
+      :sort-active="filter.orderBy"
+      width-dropdown="180"
+      width-popper="518"
+      @apply="handleApplyFilter"
+      @reset="handleReset"
       @search="handleSearch"
       @sort="handleSort"
-      @reset="handleReset"
-      @apply="handleApplyFilter"
-      ref="refFilter"
     >
       <template #filter>
         <el-form label-position="top">
           <div class="flex justify-between">
-            <el-form-item label="Status" class="flex-1">
-              <el-select v-model="filter.status" placeholder="Status" clearable :teleported="false" class="w-full">
+            <el-form-item class="flex-1" label="Status">
+              <el-select v-model="filter.status" :teleported="false" class="w-full" clearable placeholder="Status">
                 <el-option v-for="(type, index) in listStatus" :key="index" :label="type.title" :value="type.value" />
               </el-select>
             </el-form-item>
           </div>
           <div class="flex justify-between">
-            <el-form-item class="flex-1 mr-10" label="Request date">
+            <el-form-item class="mr-10 flex-1" label="Request date">
               <el-date-picker
                 v-model="filter.fromDate"
+                :disabled-date="$event => useDisableTime($event, 'from', filter.toDate)"
+                :teleported="false"
                 format="MM/DD/YYYY"
-                value-format="x"
                 placeholder="From date"
                 type="date"
-                :teleported="false"
-                :disabled-date="$event => useDisableTime($event, 'from', filter.toDate)"
+                value-format="x"
               >
               </el-date-picker>
             </el-form-item>
-            <el-form-item class="flex-1 hide-label" label="1">
+            <el-form-item class="hide-label flex-1" label="1">
               <el-date-picker
                 v-model="filter.toDate"
+                :disabled-date="$event => useDisableTime($event, 'to', filter.fromDate)"
+                :teleported="false"
                 format="MM/DD/YYYY"
-                value-format="x"
                 placeholder="To date"
                 type="date"
-                :teleported="false"
-                :disabled-date="$event => useDisableTime($event, 'to', filter.fromDate)"
+                value-format="x"
               >
               </el-date-picker>
             </el-form-item>
           </div>
           <div class="flex justify-between">
-            <el-form-item class="flex-1 mr-10" label="Amount">
+            <el-form-item class="mr-10 flex-1" label="Amount">
               <el-input
-                placeholder="From"
                 v-model="filter.fromAmount"
+                placeholder="From"
                 @keypress="useOnlyNumber($event, filter.fromAmount)"
                 @keyup="useFormatNumberInput($event)"
               >
                 <template #prefix>
-                  <span class="h-full text-base flex items-center text-[#0a0b0d]">$</span>
+                  <span class="flex h-full items-center text-base text-[#0a0b0d]">$</span>
                 </template>
               </el-input>
             </el-form-item>
-            <el-form-item class="flex-1 mt-5" label=" ">
+            <el-form-item class="mt-5 flex-1" label=" ">
               <el-input
-                placeholder="To"
                 v-model="filter.toAmount"
+                placeholder="To"
                 @keypress="useOnlyNumber($event, filter.toAmount)"
                 @keyup="useFormatNumberInput($event)"
               >
                 <template #prefix>
-                  <span class="h-full text-base flex items-center text-[#0a0b0d]">$</span>
+                  <span class="flex h-full items-center text-base text-[#0a0b0d]">$</span>
                 </template>
               </el-input>
             </el-form-item>
           </div>
         </el-form>
       </template>
+      <template #button>
+        <div class="ml-[auto] pr-6">
+          <base-button @click="handleOpenPopupAddProduct">Add Product</base-button>
+        </div>
+      </template>
     </base-filter>
     <div class="px-6">
       <transaction-withdraw-table
-        :isLoading="isLoading"
         :data="dataTransactionWithDraw"
+        :isLoading="isLoading"
         :query="query"
         @limit-change="handleLimitChange"
         @page-change="handlePageChange"
         @row-click="handleRowClick"
       ></transaction-withdraw-table>
     </div>
+    <popup-add-product />
   </div>
 </template>
 
@@ -117,42 +123,45 @@
   import type { ITab, IQuery, ISort, ITransactionWithdraw, ISummaryRequest } from '@/interfaces'
   import { apiRequest } from '@/services'
   import TransactionWithdrawTable from '@/modules/request/components/table/TransactionWithdrawTable.vue'
+  import { useBaseStore } from '@/stores/base'
+  import PopupAddProduct from '@/modules/request/components/popup/PopupAddProduct.vue'
 
   const route = useRoute()
   const router = useRouter()
+  const baseStore = useBaseStore()
 
   const dataTransactionWithDraw: Ref<ITransactionWithdraw[]> = ref([
     {
       id: 31576,
-      transactionType: "WITHDRAW",
-      transactionDate: "2022-12-29T08:54:36.000+00:00",
-      transactionDay: "2022-12-29",
+      transactionType: 'WITHDRAW',
+      transactionDate: '2022-12-29T08:54:36.000+00:00',
+      transactionDay: '2022-12-29',
       transactionMillisecond: 1672304076365,
-      currency: "LYNK",
-      currencyName: "LynKey",
-      network: "ERC20",
-      networkName: "Ethereum",
+      currency: 'LYNK',
+      currencyName: 'LynKey',
+      network: 'ERC20',
+      networkName: 'Ethereum',
       userId: 4,
-      fromAddress: "0xbbdcb6b53f1fd934bf6e6ff7da8648cc0a90b0f9",
-      toAddress: "hshdhdhd",
+      fromAddress: '0xbbdcb6b53f1fd934bf6e6ff7da8648cc0a90b0f9',
+      toAddress: 'hshdhdhd',
       transactionHash: null,
       amount: 2000,
-      amountDisplay: "-2,109.70 LYNK",
+      amountDisplay: '-2,109.70 LYNK',
       transactionFee: 109.7,
       amountToUsd: 53.4176848406832,
       nonce: 0,
-      description: "",
-      status: "PENDING",
+      description: '',
+      status: 'PENDING',
       accountTransactionId: null,
       tokenUsdExchangeRate: 0.02532,
-      createdAt: "2022-12-29T08:54:36.000+00:00",
+      createdAt: '2022-12-29T08:54:36.000+00:00',
       updatedAt: null,
       rejectedAt: null,
       rejectedReason: null,
       isLimitAmount: 0,
-      username: "huetransky@gmail.com",
-      fullName: "Trần Thị Huế",
-      email: "huetransky@gmail.com"
+      username: 'huetransky@gmail.com',
+      fullName: 'Trần Thị Huế',
+      email: 'huetransky@gmail.com'
     }
   ])
   const dataSummaryRequest: Ref<ISummaryRequest> = ref({
@@ -242,6 +251,10 @@
     router.push({ params: { currency: tab } })
     resetFilter()
     getListWithDraw()
+  }
+
+  const handleOpenPopupAddProduct = (): void => {
+    baseStore.setOpenPopup(true, 'popup-add-product')
   }
 
   onMounted(() => {

@@ -5,21 +5,21 @@
       <the-sidebar />
     </el-aside>
     <el-container>
-      <el-header class="h-[70px] px-6 border-b border-solid border-[#d2d0ce]">
+      <el-header class="h-[70px] border-b border-solid border-[#d2d0ce] px-6">
         <the-header />
       </el-header>
-      <el-main class="pt-6 pr-6 pl-6 pb-0 bg-[#f6f8fc]">
+      <el-main class="bg-[#f6f8fc] pt-6 pr-6 pl-6 pb-0">
         <router-view />
       </el-main>
-      <el-footer class="flex items-center px-6 border-t border-solid border-[#d2d0ce] text-sm">
-        <p class="text-hyperlink mr-6 cursor-pointer select-none" @click="handleClickTerm">Terms and Conditions</p>
-        <p class="text-[#5b616e]">{{ baseStore.systemParams['system.token.company.address'] }}</p>
+      <el-footer class="flex items-center border-t border-solid border-[#d2d0ce] px-6 text-sm">
+        <p class="mr-6 cursor-pointer select-none text-hyperlink" @click="handleClickTerm">Terms and Conditions</p>
+        <!--        <p class="text-[#5b616e]">{{ baseStore.systemParams['system.token.company.address'] }}</p>-->
       </el-footer>
     </el-container>
   </el-container>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
   import { useBaseStore } from '@/stores/base'
   import { useAuthStore } from '@/modules/Auth/store/index'
   import { apiParam } from '@/services'
@@ -30,8 +30,8 @@
   const isLoading = ref(true)
 
   onMounted(async () => {
-    await authStore.getInfoUser()
-    await getListAssetNetwork()
+    // await authStore.getInfoUser()
+    // await getListAssetNetwork()
     isLoading.value = false
   })
 

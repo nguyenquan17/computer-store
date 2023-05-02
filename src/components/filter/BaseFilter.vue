@@ -23,6 +23,7 @@
       :width-dropdown="props.widthDropdown"
       @sort="handleSort"
     />
+    <slot name="button"/>
   </div>
 </template>
 

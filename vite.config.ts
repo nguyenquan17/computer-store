@@ -88,7 +88,7 @@ export default defineConfig({
     alias: [{ find: '@', replacement: fileURLToPath(new URL('./src', import.meta.url)) }]
   },
   server: {
-    port: 8080,
+    port: 3000,
     watch: {
       usePolling: true
     }

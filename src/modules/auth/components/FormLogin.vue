@@ -99,7 +99,7 @@
   }
 
   const handleSubmit = async () => {
-    const encryptText = useEncrypt(form.value.password)
+    // const encryptText = useEncrypt(form.value.password)
     // const validate = await apiAuth.validateUser({ ...form.value, password: encryptText.value }, captcha.value)
     let message = ''
     // if (!validate.emailVerified && !validate.phoneVerified) {
@@ -125,7 +125,7 @@
     //     query: { type: validate.type, email: form.value.username, pass: encryptText.value as string, reason: 'REQUEST_LOGIN' }
     //   })
     // } else if (validate.type === 'NONE') {
-      authStore.login({ ...form.value, password: encryptText.value }).then(async () => {
+      authStore.login({ ...form.value }).then(async () => {
         // const result = await apiAuth.getInfo()
         // const listRoles = result.roles
 

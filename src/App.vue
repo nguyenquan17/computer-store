@@ -8,13 +8,13 @@
 
   const baseStore = useBaseStore()
 
-  const method = async () => {
-    const rs = await apiParam.getSystemParams()
-    baseStore.setSystemParams(rs)
-  }
+  // const method = async () => {
+  //   const rs = await apiParam.getSystemParams()
+  //   baseStore.setSystemParams(rs)
+  // }
 
   onMounted(() => {
-    method()
+    // method()
   })
 </script>
 

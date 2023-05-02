@@ -27,17 +27,18 @@ export const useAuthStore = defineStore('auth', () => {
   })
 
   const getInfoUser = async () => {
-    const info = await apiAuth.getInfo()
-    user.value = info
+    // const info = await apiAuth.getInfo()
+    // user.value = info
   }
 
   const login = async (data: Record<string, any>) => {
     try {
       const result = await apiAuth.login(data)
+      console.log(result, 'LOGIN')
       user.value = result
-      request.defaults.headers.common['Authorization'] = `Bearer ${result.accessToken}`
-      Cookies.set('access_token', result.accessToken, { expires: 1 })
-      Cookies.set('user_id', result.id, { expires: 1 })
+      request.defaults.headers.common['Authorization'] = `Bearer ${result.token}`
+      Cookies.set('access_token', result.token, { expires: 1 })
+      Cookies.set('user_id', result.userId, { expires: 1 })
       return Promise.resolve()
     } catch (error) {
       return Promise.reject(error)

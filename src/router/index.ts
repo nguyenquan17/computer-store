@@ -2,12 +2,23 @@ import { createRouter, createWebHistory } from 'vue-router'
 import Cookies from 'js-cookie'
 import { useAuthStore } from '@/modules/Auth/store'
 
+const LayoutLanding = (): any => import('@/components/layout/layout-landing/LayoutLanding.vue')
+
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
       path: '/',
-      redirect: { name: 'Customer', params: { type: 'all' } }
+      component: LayoutLanding,
+      name: 'Home',
+      redirect: { name: 'LayoutLanding' },
+      children: [
+        {
+          path: '',
+          name: 'LandingPage',
+          component: () => import('../modules/landing/views/LandingPage.vue')
+        }
+      ]
     }
   ]
 })
