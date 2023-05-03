@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Cookies from 'js-cookie'
 import { useAuthStore } from '@/modules/Auth/store'
+import {includes} from "lodash-es";
 
 const LayoutLanding = (): any => import('@/components/layout/layout-landing/LayoutLanding.vue')
 
@@ -36,9 +37,16 @@ router.beforeEach(async (to, from, next) => {
   }
 
   if (!store.isLogin) {
-    router.push({ name: 'LoginPage' })
-    Cookies.remove('access_token')
-    location.href = '/login'
+    if(includes(['LandingPage'], to.name)){
+      next()
+      window.scrollTo(0, 0)
+      return
+    }else{
+      router.push({ name: 'LoginPage' })
+      Cookies.remove('access_token')
+      location.href = '/login'
+    }
+
   }
   next()
 })

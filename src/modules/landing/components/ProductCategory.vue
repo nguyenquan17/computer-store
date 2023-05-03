@@ -12,12 +12,16 @@
           <p>Laptop</p>
           <p>Xem tất cả</p>
         </div>
-        <div class=""></div>
+        <div class="">
+          <Item />
+        </div>
       </div>
     </div>
   </div>
 </template>
 
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+import Item from '../components/Item.vue'
+</script>
 
 <style scoped></style>
