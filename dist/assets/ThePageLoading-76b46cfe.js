@@ -1,1 +1,0 @@
-import{_ as o}from"./_plugin-vue_export-helper-c27b6911.js";import{o as _,c as s,K as c,L as t,a}from"./index-33323f4a.js";const n={},d=e=>(c("data-v-375b1853"),e=e(),t(),e),p={class:"load-main"},i=d(()=>a("div",{class:"spinner-main"},null,-1)),r=[i];function l(e,m){return _(),s("div",p,r)}const f=o(n,[["render",l],["__scopeId","data-v-375b1853"]]);export{f as _};
