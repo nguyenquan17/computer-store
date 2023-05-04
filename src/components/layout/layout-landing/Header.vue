@@ -3,7 +3,7 @@
     <div class="flex h-full items-center">
       <div class="flex items-center pl-2 pr-2">
         <base-icon icon="logo-icon" size="36"></base-icon>
-        <h1 class="font-['Open_Sans']">QUANNA.SHOP</h1>
+        <h1 class="font-['Open_Sans'] font-bold">QUANLOC.SHOP</h1>
       </div>
       <div class="search-bar flex-auto pl-2 pr-2">
         <el-input v-model="form.inputSearch" class="h-[37px]" placeholder="Nhập từ khóa cần tìm kiếm">

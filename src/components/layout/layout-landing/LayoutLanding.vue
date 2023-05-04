@@ -9,7 +9,7 @@
           src="https://lh3.googleusercontent.com/nKMbfvP-YF19yj0cDGV7asc7Ro_30B79EX0Qgaw1WlULVylvHL_634Xbu_0jY2peGLzJOTjDV8YXwpmtw2ZvrVjArEhDza67=w1920-rw"
         />
       </div>
-      <div class="general-information-header h-[42px] bg-[#1435c3]">
+      <div class="general-information-header min-h-[42px] bg-[#1435c3]">
         <div class="m-auto flex h-full w-[1232px] justify-between text-sm text-[#ececec]">
           <div class="flex cursor-pointer items-center">
             <el-icon>
@@ -54,13 +54,16 @@
       </el-header>
       <el-main class="bg-[#f6f8fc] pb-0 pl-0 pt-0 pr-0">
         <router-view />
+        <div>
+          <Footer />
+        </div>
       </el-main>
+
     </el-container>
   </el-container>
 </template>
 
 <script lang="ts" setup>
-  import Header from '@/components/layout/layout-landing/Header.vue'
   import { Discount, OfficeBuilding, Service, Monitor, Setting } from '@element-plus/icons-vue'
 
   const isLoading = ref(true)

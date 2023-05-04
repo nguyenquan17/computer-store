@@ -2,6 +2,8 @@
   <div>
     <Banner />
     <ProductCategory />
+    <ProductCategory />
+    <ProductCategory />
   </div>
 </template>
 

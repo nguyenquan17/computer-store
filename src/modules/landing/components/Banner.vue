@@ -1,5 +1,5 @@
 <template>
-  <div class="landing-banner">
+  <div class="landing-banner mb-6">
     <div>
       <swiper
         :autoplay="{
@@ -22,7 +22,7 @@
         </swiper-slide>
       </swiper>
     </div>
-    <div class="z-50 m-auto mt-[-72px] flex max-w-[1232px]">
+    <div class="z-50 m-auto mt-[-72px] flex max-w-[1232px] px-4">
       <div class="flex justify-between gap-[15px]">
         <div
           v-for="item in listBottomBanner"
