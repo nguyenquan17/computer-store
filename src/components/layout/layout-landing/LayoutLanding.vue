@@ -5,7 +5,7 @@
       <div class="banner-header h-[56px]">
         <img
           alt=""
-          class="w-full"
+          class="h-full w-full"
           src="https://lh3.googleusercontent.com/nKMbfvP-YF19yj0cDGV7asc7Ro_30B79EX0Qgaw1WlULVylvHL_634Xbu_0jY2peGLzJOTjDV8YXwpmtw2ZvrVjArEhDza67=w1920-rw"
         />
       </div>
@@ -58,7 +58,6 @@
           <Footer />
         </div>
       </el-main>
-
     </el-container>
   </el-container>
 </template>

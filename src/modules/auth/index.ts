@@ -1,5 +1,6 @@
 import type { ModuleInterface } from '@/interfaces/module'
-import authRouter from '@/modules/Auth/router'
+import authRouter from '@/modules/auth/router'
+
 const authModule: ModuleInterface = {
   router: authRouter
 }

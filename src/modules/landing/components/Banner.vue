@@ -1,5 +1,5 @@
 <template>
-  <div class="landing-banner mb-6">
+  <div class="landing-banner relative mb-6 min-h-[600px]">
     <div>
       <swiper
         :autoplay="{
@@ -17,12 +17,15 @@
       >
         <swiper-slide v-for="(item, index) in listBanner" :key="index">
           <div class="select-none">
-            <img :src="item.image" alt="" />
+            <img :src="item.image" alt="" class="h-[566px] w-full" />
           </div>
         </swiper-slide>
       </swiper>
     </div>
-    <div class="z-50 m-auto mt-[-72px] flex max-w-[1232px] px-4">
+    <div class="z-50 m-auto mt-[-550px] max-w-[1232px] px-4">
+      <MenuCategory />
+    </div>
+    <div class="z-50 m-auto mt-[32px] flex max-w-[1232px] px-4">
       <div class="flex justify-between gap-[15px]">
         <div
           v-for="item in listBottomBanner"
@@ -45,6 +48,7 @@
 
   import 'swiper/css/pagination'
   import 'swiper/css/navigation'
+  import MenuCategory from '@/modules/landing/components/MenuCategory.vue'
 
   const modules: Ref<any> = ref([Autoplay, Pagination, Navigation])
   const listBanner: Ref<Record<string, any>> = ref([
