@@ -7,11 +7,11 @@ const homeProductRouter: RouteRecordRaw[] = [
     path: '/product',
     component: LayoutLanding,
     name: 'HomeProduct',
-    redirect: { name: 'LandingPage' },
     children: [
       {
         path: '',
         component: () => import('../view/HomeProduct.vue'),
+        redirect: { name: 'LandingPage' },
         children: [
           {
             path: ':category',
@@ -20,7 +20,7 @@ const homeProductRouter: RouteRecordRaw[] = [
             //   module: 'ProductView',
             //   title: 'ProductView'
             // },
-            component: () => import('../view/ProductView.vue'),
+            component: () => import('../view/ProductView.vue')
           },
           {
             path: ':category/:detail',

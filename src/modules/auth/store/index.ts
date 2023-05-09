@@ -1,4 +1,4 @@
-import { apiAuth } from './../../../services/index'
+import { apiAuth } from '@/services'
 import { defineStore } from 'pinia'
 import Cookies from 'js-cookie'
 import request from '@/plugins/request'
@@ -54,7 +54,7 @@ export const useAuthStore = defineStore('auth', () => {
       Cookies.remove('access_token')
       Cookies.remove('user_id')
       request.defaults.headers.common['Authorization'] = ''
-      
+
       return Promise.resolve()
     } catch (error) {
       return Promise.reject(error)

@@ -6,6 +6,7 @@ import balanceModule from '@/modules/balance'
 import requestModule from '@/modules/request'
 import feeModule from './fee'
 import marketplaceModule from '@/modules/home-product'
+import cartModule from '@/modules/cart'
 
 const listModule: Record<string, ModuleInterface> = {
   authModule,
@@ -14,7 +15,8 @@ const listModule: Record<string, ModuleInterface> = {
   transactionModule,
   requestModule,
   feeModule,
-  marketplaceModule
+  marketplaceModule,
+  cartModule
 }
 
 export default listModule
