@@ -10,16 +10,20 @@ const homeProductRouter: RouteRecordRaw[] = [
     redirect: { name: 'LandingPage' },
     children: [
       {
-        path: ':category',
-        name: 'ProductView',
-        meta: {
-          module: 'ProductView',
-          title: 'ProductView'
-        },
-        component: () => import('../view/ProductView.vue'),
+        path: '',
+        component: () => import('../view/HomeProduct.vue'),
         children: [
           {
-            path: ':detail',
+            path: ':category',
+            name: 'ProductView',
+            // meta: {
+            //   module: 'ProductView',
+            //   title: 'ProductView'
+            // },
+            component: () => import('../view/ProductView.vue'),
+          },
+          {
+            path: ':category/:detail',
             name: 'ProductDetailView',
             meta: {
               module: 'ProductDetailView',
