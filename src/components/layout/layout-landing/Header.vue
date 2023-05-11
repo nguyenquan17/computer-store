@@ -3,7 +3,9 @@
     <div class="flex h-full items-center">
       <div class="flex items-center pl-2 pr-2">
         <base-icon icon="logo-icon" size="36"></base-icon>
-        <h1 class="font-['Open_Sans'] font-bold">QUANLOC.SHOP</h1>
+        <h1 class="font-['Open_Sans'] font-bold">
+          <router-link to="/">QUANLOC.SHOP</router-link>
+        </h1>
       </div>
       <div class="search-bar flex-auto pl-2 pr-2">
         <el-input v-model="form.inputSearch" class="h-[37px]" placeholder="Nhập từ khóa cần tìm kiếm">
@@ -33,7 +35,7 @@
           <Bell />
         </el-icon>
       </div>
-      <div class="flex cursor-pointer items-center gap-2 pl-2 pr-2">
+      <div class="flex cursor-pointer items-center gap-2 pl-2 pr-2 hover:text-secondary">
         <el-icon class="text-[32px] text-[#82869E]">
           <ShoppingTrolley />
         </el-icon>
@@ -67,10 +69,8 @@
   const handleOpenPopup = (type: string): void => {
     if (type === 'signIn') {
       baseStore.setOpenPopup(true, 'popup-login')
-      router.push({ name: 'FormSignIn' })
     } else if (type === 'signUp') {
       baseStore.setOpenPopup(true, 'popup-register')
-      router.push({ name: 'FormSignUp' })
     }
   }
 </script>

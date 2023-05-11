@@ -91,12 +91,12 @@
       await router.push({ name: 'LandingPage' })
       message = 'Đăng nhập thành công'
       ElMessage.success({ message, duration: 5000 })
+      baseStore.setOpenPopup(false, 'popup-login')
       // }
     })
   }
 
   const handleOpenFormSignUp = (): void => {
-    router.push({ name: 'FormSignUp' })
     baseStore.setOpenPopup(true, 'popup-register')
     baseStore.setOpenPopup(false, 'popup-login')
   }
@@ -106,7 +106,6 @@
   }
   const handleClose = () => {
     baseStore.setOpenPopup(false, 'popup-login')
-    router.push({ name: 'LandingPage' })
   }
 </script>
 

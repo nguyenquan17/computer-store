@@ -49,6 +49,8 @@
 <script lang="ts" setup>
   import { useBaseStore } from '@/stores/base'
   import type { FormRules } from 'element-plus'
+  import { apiCustomer } from '@/services'
+  import { ElMessage } from 'element-plus'
 
   const router = useRouter()
   const baseStore = useBaseStore()
@@ -129,22 +131,33 @@
     )
   })
 
-  const handleSubmit = (): void => {
-    console.log()
+  const registerAccount = async (): Promise<void> => {
+    try {
+      isLoading.value = true
+      const req = await apiCustomer.registerAccount({ ...form.value })
+      if (req && req.status === 200) {
+        ElMessage.success({ message: 'Đăng ký tài khoản thành công', duration: 5000 })
+        baseStore.setOpenPopup(false, 'popup-login')
+      } else {
+        ElMessage.error({ message: 'Đăng ký tài khoản thất bại. Vui lòng thử lại', duration: 5000 })
+      }
+      isLoading.value = false
+    } catch (e) {
+      console.log(e)
+      isLoading.value = false
+    }
   }
 
-  // const handleOpenFormSignIn = (): void => {
-  //   router.push({ name: 'FormSignIn' })
-  //   baseStore.setOpenPopup(true, 'popup-login')
-  //   baseStore.setOpenPopup(false, 'popup-register')
-  // }
+  const handleSubmit = (): void => {
+    registerAccount()
+  }
 
   const handleOpen = () => {
     console.log()
   }
   const handleClose = () => {
-    baseStore.setOpenPopup(false, 'popup-login')
-    router.push({ name: 'LandingPage' })
+    baseStore.setOpenPopup(false, 'popup-register')
+    // router.push({ name: 'LandingPage' })
   }
 </script>
 

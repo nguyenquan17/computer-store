@@ -3,36 +3,17 @@ import request from '@/plugins/request'
 import { forEach } from 'lodash-es'
 
 export default class CustomerRepository {
-  prefix = 'main/api/v1/customers'
+  // prefix = 'main/api/v1/customers'
+  prefix = 'client'
 
-  private convertParams(params: Record<string, any>): Record<string, any> {
-    const _params = { ...params }
-    const objKey = Object.keys(_params)
-    forEach(objKey, key => {
-      if (_params[key] === '' && key !== 'type') {
-        delete _params[key]
-      }
-    })
-    return _params
-  }
-
-  private convertParamsHasNumberDecimal(params: Record<string, any>): Record<string, any> {
-    const _params = { ...params }
-    const objKey = Object.keys(_params)
-
-    if (_params.fromAmount) {
-      _params.fromAmount = _params.fromAmount.replaceAll(',', '') * 1
+  async registerAccount(data: Record<string, any>): Promise<any> {
+    try {
+      const rs = await request.post(`${this.prefix}/registerAccount`, data)
+      return Promise.resolve(rs.data)
+    } catch (error) {
+      console.log(error)
+      return Promise.reject(error)
     }
-    if (_params.toAmount) {
-      _params.toAmount = _params.toAmount.replaceAll(',', '') * 1
-    }
-
-    forEach(objKey, key => {
-      if (_params[key] === '' || key === 'total') {
-        _params[key] = null
-      }
-    })
-    return _params
   }
 
   async getListCustomer(params: Record<string, any>): Promise<any> {
@@ -69,6 +50,7 @@ export default class CustomerRepository {
       return Promise.reject(error)
     }
   }
+
   async getListBonus(params: Record<string, any>): Promise<any> {
     try {
       params.toDate = useConvertUtcTime(params.toDate, 'to')
@@ -91,6 +73,7 @@ export default class CustomerRepository {
       return Promise.reject(error)
     }
   }
+
   async getDetailCustomer(params: Record<string, any>): Promise<any> {
     try {
       const rs = await request.get(`${this.prefix}`, { params })
@@ -110,6 +93,7 @@ export default class CustomerRepository {
       return Promise.reject(error)
     }
   }
+
   async getListTransactionCustomer(userId: number, params: Record<string, any>): Promise<any> {
     try {
       params.toTransactionDate = useConvertUtcTime(params.toTransactionDate, 'to')
@@ -120,5 +104,35 @@ export default class CustomerRepository {
       console.log(error)
       return Promise.reject(error)
     }
+  }
+
+  private convertParams(params: Record<string, any>): Record<string, any> {
+    const _params = { ...params }
+    const objKey = Object.keys(_params)
+    forEach(objKey, key => {
+      if (_params[key] === '' && key !== 'type') {
+        delete _params[key]
+      }
+    })
+    return _params
+  }
+
+  private convertParamsHasNumberDecimal(params: Record<string, any>): Record<string, any> {
+    const _params = { ...params }
+    const objKey = Object.keys(_params)
+
+    if (_params.fromAmount) {
+      _params.fromAmount = _params.fromAmount.replaceAll(',', '') * 1
+    }
+    if (_params.toAmount) {
+      _params.toAmount = _params.toAmount.replaceAll(',', '') * 1
+    }
+
+    forEach(objKey, key => {
+      if (_params[key] === '' || key === 'total') {
+        _params[key] = null
+      }
+    })
+    return _params
   }
 }
