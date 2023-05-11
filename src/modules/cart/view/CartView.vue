@@ -22,9 +22,11 @@
             </div>
           </div>
         </div>
+        <el-checkbox-group v-model="cartItemSelected" :value="item" size="large" @change="updateCheckAllItem()">
+        </el-checkbox-group>
         <div v-for="item in fakeCart" :key="item.id" class="flex justify-between px-4 py-4">
           <div class="max-w-[4%] flex-[0_0_4%]">
-            <el-checkbox-group v-model="cartItemSelected" :value="item" size="large" @change="updateCheckAllItem()" />
+            <el-checkbox v-model="cartItemSelected" size="large" @change="updateCheckAllItem" />
           </div>
           <div class="flex flex-[0_0_96%] justify-between text-sm font-bold">
             <div class="max-w-[16.66%]">Đơn giá</div>
@@ -75,22 +77,23 @@
       quantity: 16
     }
   ])
-  const cartItemSelected: Ref<Record<string, any>[]> = ref([])
-  const selectedItem: Ref<Record<string, any>> = ref({})
+  const cartItemSelected: Ref<boolean> = ref(false)
+  const updateCheckAllItem = (): void => {}
+  // const selectedItem: Ref<Record<string, any>> = ref({})
 
-  const checkAllItem = (): void => {
-    isCheckAll.value = !isCheckAll.value
-    cartItemSelected.value = []
-    if (isCheckAll.value) {
-      for (const key in fakeCart.value) {
-        console.log(key)
-        cartItemSelected.value.push(fakeCart.value[key])
-      }
-    }
-  }
-  const updateCheckAllItem = (): void => {
-    isCheckAll.value = fakeCart.value.length === cartItemSelected.value.length
-  }
+  // const checkAllItem = (): void => {
+  //   isCheckAll.value = !isCheckAll.value
+  //   cartItemSelected.value = []
+  //   if (isCheckAll.value) {
+  //     for (const key in fakeCart.value) {
+  //       console.log(key)
+  //       cartItemSelected.value.push(fakeCart.value[key])
+  //     }
+  //   }
+  // }
+  // const updateCheckAllItem = (): void => {
+  //   isCheckAll.value = fakeCart.value.length === cartItemSelected.value.length
+  // }
 </script>
 
 <style scoped></style>
