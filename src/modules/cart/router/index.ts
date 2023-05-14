@@ -7,10 +7,11 @@ const cartRouter: RouteRecordRaw[] = [
     path: '/cart',
     component: LayoutLanding,
     name: 'Cart',
+    redirect: { name: 'CartView' },
     children: [
       {
         path: '',
-        name: 'Cart',
+        name: 'CartView',
         component: () => import('../view/CartView.vue')
       }
     ]

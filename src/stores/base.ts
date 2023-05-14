@@ -1,27 +1,18 @@
-import type { IAssetToken } from '@/interfaces'
-import { filter, forEach, union } from 'lodash-es'
+import type { ICategory } from '@/interfaces'
+import { filter, union } from 'lodash-es'
 import { defineStore } from 'pinia'
 
 export const useBaseStore = defineStore('base', () => {
   const systemParams = ref({})
-  const listAssetToken = ref<IAssetToken[]>([])
-  const listRounding = ref<Record<string, number>>({})
-  const siteKey = import.meta.env.VITE_SITEKEY_CAPTCHA
+  const listAssetCategory = ref<ICategory[]>([])
   const popup = ref<string[]>([])
 
-  const setSystemParams = (data: Record<string, any>) => {
-    systemParams.value = data
-  }
+  // const setSystemParams = (data: Record<string, any>) => {
+  //   systemParams.value = data
+  // }
 
-  const setListAssetToken = (list: IAssetToken[]) => {
-    listAssetToken.value = list
-  }
-  const setListRounding = (list: IAssetToken[]) => {
-    forEach(list, token => {
-      listRounding.value[token.currency] = token.rounding
-    })
-    listRounding.value['USD'] = 2
-    listRounding.value['PERCENT'] = 2
+  const setListAssetCategory = (list: ICategory[]) => {
+    listAssetCategory.value = list
   }
 
   const setOpenPopup = (isOpen: boolean, popupName: string) => {
@@ -36,13 +27,10 @@ export const useBaseStore = defineStore('base', () => {
 
   return {
     systemParams,
-    listAssetToken,
-    siteKey,
-    listRounding,
+    listAssetCategory,
     popup,
-    setSystemParams,
-    setListAssetToken,
-    setListRounding,
+
+    setListAssetCategory,
     setOpenPopup
   }
 })

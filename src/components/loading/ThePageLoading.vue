@@ -4,7 +4,7 @@
   </div>
 </template>
 
-<script setup lang="ts"></script>
+<script lang="ts" setup></script>
 
 <style scoped>
   .load-main {
@@ -14,8 +14,10 @@
     position: absolute;
     top: 0;
     left: 0;
-    background: #ffffff;
+    background: transparent;
+    /*background: #00000080;*/
   }
+
   .spinner-main {
     position: fixed;
     top: calc(50vh - 60px);

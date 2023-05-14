@@ -23,7 +23,7 @@ const homeProductRouter: RouteRecordRaw[] = [
             component: () => import('../view/ProductView.vue')
           },
           {
-            path: ':category/:detail',
+            path: 'detail/:detail',
             name: 'ProductDetailView',
             meta: {
               module: 'ProductDetailView',

@@ -86,14 +86,20 @@
   })
 
   const handleSubmit = async () => {
-    let message = ''
-    authStore.login({ ...form.value }).then(async () => {
-      await router.push({ name: 'LandingPage' })
-      message = 'Đăng nhập thành công'
-      ElMessage.success({ message, duration: 5000 })
-      baseStore.setOpenPopup(false, 'popup-login')
-      // }
-    })
+    try {
+      isLoading.value = true
+      let message = ''
+      authStore.login({ ...form.value }).then(async () => {
+        await router.push({ name: 'LandingPage' })
+        message = 'Đăng nhập thành công'
+        ElMessage.success({ message, duration: 5000 })
+        baseStore.setOpenPopup(false, 'popup-login')
+        isLoading.value = false
+      })
+    } catch (e) {
+      isLoading.value = false
+      console.log(e)
+    }
   }
 
   const handleOpenFormSignUp = (): void => {

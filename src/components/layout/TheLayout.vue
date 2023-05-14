@@ -35,17 +35,17 @@
     isLoading.value = false
   })
 
-  const getListAssetNetwork = async () => {
-    try {
-      const result = await apiParam.getListAssetToken()
-      baseStore.setListRounding(result.assets)
-      baseStore.setListAssetToken(result.assets)
-
-      // initListToken(result.assets, result.allAsset)
-    } catch (error) {
-      return Promise.reject(error)
-    }
-  }
+  // const getListAssetNetwork = async () => {
+  //   try {
+  //     const result = await apiParam.getListAssetToken()
+  //     baseStore.setListRounding(result.assets)
+  //     baseStore.setListAssetToken(result.assets)
+  //
+  //     // initListToken(result.assets, result.allAsset)
+  //   } catch (error) {
+  //     return Promise.reject(error)
+  //   }
+  // }
 
   const handleClickTerm = () => {
     window.open(`${baseStore.systemParams['system.token.terms']}`)

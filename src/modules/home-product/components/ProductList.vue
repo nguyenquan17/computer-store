@@ -11,10 +11,18 @@
           </div>
         </div>
       </div>
-      <div class="flex flex-wrap justify-center">
-        <div v-for="item in 20" :key="item" class="w-[25%] border-b border-r border-l border-solid border-[#eaeaea]">
-          <Item />
+      <div v-if="!isLoading" class="flex min-h-[65vh] flex-wrap justify-start bg-white">
+        <div
+          v-for="item in listProduct"
+          :key="item.id"
+          class="h-fit w-[25%] border-b border-r border-l border-solid border-[#eaeaea]"
+          @click="handleClickItem(item)"
+        >
+          <Item :data-item="item" />
         </div>
+      </div>
+      <div v-else class="flex min-h-[65vh] flex-wrap justify-start bg-white">
+        <base-loading class="flex w-full items-center justify-center" tip="" />
       </div>
     </div>
   </div>
@@ -22,7 +30,16 @@
 
 <script lang="ts" setup>
   import Item from '@/modules/landing/components/Item.vue'
+  import { useBaseStore } from '@/stores/base'
+  import { apiProduct } from '@/services'
+  import type { IProduct } from '@/interfaces'
+  import { filter } from 'lodash-es'
 
+  const route = useRoute()
+  const router = useRouter()
+  const baseStore = useBaseStore()
+  const isLoading: Ref<boolean> = ref(false)
+  const listProduct: Ref<IProduct[]> = ref([])
   const listSort: Ref<Record<string, any>> = ref([
     {
       name: 'Khuyến mãi tốt nhất',
@@ -37,6 +54,42 @@
       value: 'price_desc'
     }
   ])
+  onMounted(async () => {
+    await getProductList()
+  })
+
+  const getProductList = async () => {
+    try {
+      isLoading.value = true
+      const body = {
+        page: 0,
+        size: 20,
+        sort: 'desc',
+        order: 'productId',
+        categoryId: filter(baseStore.listAssetCategory, item => item.path === route.params.category)[0].id
+      }
+      const result = await apiProduct.getAllProductByCategory(body)
+      if (result) {
+        listProduct.value = result.data
+      }
+      isLoading.value = false
+    } catch (e) {
+      isLoading.value = false
+      console.log(e)
+    }
+  }
+
+  const handleClickItem = (item: IProduct): void => {
+    console.log(item.productId)
+    router.push({ name: 'ProductDetailView', params: { detail: item.productId } })
+  }
+
+  watch(
+    () => route.params.category,
+    () => {
+      getProductList()
+    }
+  )
 </script>
 
 <style scoped></style>

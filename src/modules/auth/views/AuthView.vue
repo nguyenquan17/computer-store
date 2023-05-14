@@ -8,10 +8,10 @@
   </div>
 </template>
 
-<script setup lang="ts">
-  import HeaderAuth from '@/modules/Auth/components/HeaderAuth.vue'
-  import FormLogin from '@/modules/Auth/components/FormLogin.vue'
-  import FormVerify from '@/modules/Auth/components/FormVerify.vue'
+<script lang="ts" setup>
+  import HeaderAuth from '@/modules/auth/components/HeaderAuth.vue'
+  import FormLogin from '@/modules/auth/components/FormLogin.vue'
+  import FormVerify from '@/modules/auth/components/FormVerify.vue'
 </script>
 
 <style scoped></style>

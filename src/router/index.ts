@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Cookies from 'js-cookie'
-import { useAuthStore } from '@/modules/Auth/store'
+import { useAuthStore } from '@/modules/auth/store'
 import { includes } from 'lodash-es'
 
 const LayoutLanding = (): any => import('@/components/layout/layout-landing/LayoutLanding.vue')
@@ -17,19 +17,7 @@ const router = createRouter({
         {
           path: '',
           name: 'LandingPage',
-          component: () => import('../modules/landing/views/LandingPage.vue'),
-          children: [
-            {
-              path: 'sign-in',
-              name: 'FormSignIn',
-              component: () => import('../modules/auth/components/PopupLogin.vue')
-            },
-            {
-              path: 'sign-up',
-              name: 'FormSignUp',
-              component: () => import('../modules/auth/components/PopupRegister.vue')
-            }
-          ]
+          component: () => import('../modules/landing/views/LandingPage.vue')
         }
       ]
     }
@@ -51,7 +39,10 @@ router.beforeEach(async (to, from, next) => {
 
   if (!store.isLogin) {
     if (
-      includes(['LandingPage', 'HomeProduct', 'ProductView', 'ProductDetailView', 'FormSignUp', 'FormSignIn', 'Cart'], to.name)
+      includes(
+        ['LandingPage', 'HomeProduct', 'ProductView', 'ProductDetailView', 'FormSignUp', 'FormSignIn', 'CartView'],
+        to.name
+      )
     ) {
       next()
       window.scrollTo(0, 0)

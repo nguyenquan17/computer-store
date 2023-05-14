@@ -12,6 +12,7 @@ declare module '@vue/runtime-core' {
     BaseButton: typeof import('./src/components/base/button/BaseButton.vue')['default']
     BaseFilter: typeof import('./src/components/filter/BaseFilter.vue')['default']
     BaseIcon: typeof import('./src/components/base/icon/BaseIcon.vue')['default']
+    BaseLoading: typeof import('./src/components/base/loading/BaseLoading.vue')['default']
     BasePagination: typeof import('./src/components/base/pagination/BasePagination.vue')['default']
     BasePopup: typeof import('./src/components/base/popup/BasePopup.vue')['default']
     BaseTab: typeof import('./src/components/base/tab/BaseTab.vue')['default']

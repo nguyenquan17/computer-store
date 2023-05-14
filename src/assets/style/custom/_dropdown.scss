@@ -1,26 +1,42 @@
 .el-dropdown__popper.popper-avatar-header {
-    padding: 5px 0 10px 0;
+  padding: 5px 0 10px 0;
 
-    .item-above {
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-        &:hover {
-            background-color: transparent !important;
-        }
-        .line {
-            margin: 10px 0;
-            height: 1px;
-            background: #dbdbdb;
-            width: 100%;
-        }
+  .item-above {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+
+    &:hover {
+      background-color: transparent !important;
     }
-    .item-below {
-        height: 36px;
-        color: #0a0b0d;
-        &:hover {
-            background-color: #f3f2f1;
-            color: #0151fc;
-        }
+
+    .line {
+      margin: 10px 0;
+      height: 1px;
+      background: #dbdbdb;
+      width: 100%;
     }
+  }
+
+  .item-below {
+    height: 36px;
+    color: #0a0b0d;
+
+    &:hover {
+      background-color: #f3f2f1;
+      color: #0151fc;
+    }
+  }
+}
+
+.el-popper.el-dropdown__popper .el-scrollbar .el-dropdown-menu__item {
+  font-size: 14px;
+}
+
+.el-dropdown__popper {
+  .el-dropdown-menu .dropdown-menu-profile {
+    .el-dropdown-menu__item {
+      font-size: 14px;
+    }
+  }
 }
