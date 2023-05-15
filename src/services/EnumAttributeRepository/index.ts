@@ -3,6 +3,16 @@ import request from '@/plugins/request'
 export default class EnumAttributeRepository {
   prefix = 'enum'
 
+  async getAttribute(path: string): Promise<any> {
+    try {
+      const rs = await request.get(`${this.prefix}/${path}`)
+      return Promise.resolve(rs.data)
+    } catch (error) {
+      console.log(error)
+      return Promise.reject(error)
+    }
+  }
+
   async getAttributeMonitor(): Promise<any> {
     try {
       const rs = await request.get(`${this.prefix}/monitorSize`)

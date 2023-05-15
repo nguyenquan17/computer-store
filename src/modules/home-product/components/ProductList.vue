@@ -1,5 +1,5 @@
 <template>
-  <div class="max-w-[83.33%] flex-[0_0_83.33%] px-2 py-2">
+  <div class="max-w-[80%] flex-[0_0_80%] px-2 py-2">
     <div class="w-full rounded-lg bg-white">
       <div class="flex h-[64px] w-full border-b border-solid border-[#eaeaea] px-4 text-sm">
         <div class="flex items-center">
