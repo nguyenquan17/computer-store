@@ -18,39 +18,37 @@
           </div>
         </div>
         <div>
-          <el-collapse v-model="activeNames" @change="handleChange">
-            <el-collapse-item name="1" title="Attribute">
-              <el-checkbox-group v-model="checkList" class="flex flex-wrap justify-between">
+          <el-collapse v-model="activeNames">
+            <el-collapse-item name="1" title="Thương hiệu">
+              <el-checkbox-group
+                v-model="checkListBrandProduct"
+                class="flex flex-wrap justify-between"
+                @change="handleChangeFilter"
+              >
                 <el-checkbox
                   v-for="item in data.brandProduct"
                   :key="item.name"
-                  :label="item.name"
-                  :value="item.value"
+                  :label="item.value"
                   class="!mr-2 flex w-[90px] flex-wrap"
-                ></el-checkbox>
+                  >{{ item.name }}
+                </el-checkbox>
               </el-checkbox-group>
             </el-collapse-item>
-            <el-collapse-item name="2" title="Attribute">
-              <el-checkbox-group v-model="checkList">
-                <el-checkbox
-                  v-for="item in data.colorProduct"
-                  :key="item.name"
-                  :label="item.name"
-                  :value="item.value"
-                ></el-checkbox>
+            <el-collapse-item name="2" title="Màu sắc">
+              <el-checkbox-group v-model="checkListColorProduct" @change="handleChangeFilter">
+                <el-checkbox v-for="item in data.colorProduct" :key="item.name" :label="item.value">{{ item.name }} </el-checkbox>
               </el-checkbox-group>
             </el-collapse-item>
-            <el-collapse-item name="3" title="Attribute">
-              <el-checkbox-group v-model="checkList">
-                <el-checkbox
-                  v-for="item in data.laptopSeries"
-                  :key="item.name"
-                  :label="item.name"
-                  :value="item.value"
-                ></el-checkbox>
+            <el-collapse-item name="3" title="Laptop Series">
+              <el-checkbox-group v-model="checkListLaptopSeries" @change="handleChangeFilter">
+                <el-checkbox v-for="item in data.laptopSeries" :key="item.name" :label="item.value">{{ item.name }} </el-checkbox>
               </el-checkbox-group>
             </el-collapse-item>
-            <el-collapse-item name="4" title="Attribute"></el-collapse-item>
+            <el-collapse-item name="4" title="Dung lượng Ram">
+              <el-checkbox-group v-model="checkListRamCapacity" @change="handleChangeFilter">
+                <el-checkbox v-for="item in data.ramCapacity" :key="item.name" :label="item.value">{{ item.name }} </el-checkbox>
+              </el-checkbox-group>
+            </el-collapse-item>
           </el-collapse>
         </div>
       </el-form>
@@ -69,15 +67,37 @@
     priceTo: '',
     priceFrom: ''
   })
+  const checkListBrandProduct: Ref<Record<string, any>> = ref([])
+  const checkListColorProduct: Ref<Record<string, any>> = ref([])
+  const checkListLaptopSeries: Ref<Record<string, any>> = ref([])
+  const checkListHardDiskCapacity: Ref<Record<string, any>> = ref([])
+  const checkListHardDiskConnectionType: Ref<Record<string, any>> = ref([])
+  const checkListHardDiskType: Ref<Record<string, any>> = ref([])
+  const checkListHardDiskSeries: Ref<Record<string, any>> = ref([])
+  const checkListMonitorRefreshRate: Ref<Record<string, any>> = ref([])
+  const checkListMonitorPanel: Ref<Record<string, any>> = ref([])
+  const checkListMonitorResolution: Ref<Record<string, any>> = ref([])
+  const checkListMonitorSize: Ref<Record<string, any>> = ref([])
+  const checkListRamCapacity: Ref<Record<string, any>> = ref([])
+  const checkListRamSeries: Ref<Record<string, any>> = ref([])
+  const checkListCpuSocket: Ref<Record<string, any>> = ref([])
+  const checkListCpuSeries: Ref<Record<string, any>> = ref([])
+  const checkListMouseType: Ref<Record<string, any>> = ref([])
+
+  const activeNames = ref(['1', '2', '3', '4'])
   const data: Ref<Record<string, any>> = ref({})
   onMounted(async () => {
     const pathUrl = route.params.category
     if (pathUrl === 'laptop') {
-      await useAttribute.getAttributeProduct(['brandProduct', 'colorProduct', 'laptopSeries'])
+      await useAttribute.getAttributeProduct(['brandProduct', 'colorProduct', 'laptopSeries', 'ramCapacity'])
       console.log(useAttribute.dataList)
       data.value = useAttribute.dataList
     }
   })
+
+  const handleChangeFilter = () => {
+    console.log({ checkListBrandProduct, checkListColorProduct, checkListLaptopSeries })
+  }
 </script>
 
 <style scoped></style>

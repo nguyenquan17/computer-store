@@ -14,11 +14,13 @@
             <el-checkbox v-model="isCheckAll" :indeterminate="isIndeterminate" size="large" @change="handleCheckAllChange" />
           </div>
           <div class="flex flex-[0_0_96%] justify-between text-sm font-bold">
-            <div class="flex justify-between">
+            <div class="flex w-full justify-between">
               <div class="flex-[0_0_50%]"></div>
-              <div class="max-w-[16.66%]">Đơn giá</div>
-              <div class="max-w-[16.66%]">Số lượng</div>
-              <div class="max-w-[16.66%]">Thành tiền</div>
+              <div class="flex w-full justify-between">
+                <div class="max-w-[16%]">Đơn giá</div>
+                <div class="max-w-[20%]">Số lượng</div>
+                <div class="max-w-[28%]">Thành tiền</div>
+              </div>
             </div>
           </div>
         </div>
@@ -26,13 +28,13 @@
         </el-checkbox-group>
         <div v-for="item in fakeCart" :key="item.id" class="flex justify-between px-4 py-4">
           <div class="max-w-[4%] flex-[0_0_4%]">
-            <el-checkbox v-model="cartItemSelected" size="large" @change="updateCheckAllItem" />
+            <el-checkbox v-model="cartItemSelected" :label="item" size="large" @change="updateCheckAllItem">{{}} </el-checkbox>
           </div>
-          <div class="flex flex-[0_0_96%] justify-between text-sm font-bold">
-            <div class="max-w-[16.66%]">Đơn giá</div>
-            <div class="max-w-[16.66%]">Số lượng</div>
-            <div class="max-w-[16.66%]">Thành tiền</div>
-          </div>
+          <!--          <div class="flex flex-[0_0_96%] justify-between text-sm font-bold">-->
+          <!--            <div class="max-w-[16.66%]">Đơn giá</div>-->
+          <!--            <div class="max-w-[16.66%]">Số lượng</div>-->
+          <!--            <div class="max-w-[16.66%]">Thành tiền</div>-->
+          <!--          </div>-->
         </div>
         <div class="block-right w-[33.33%] rounded bg-white">
           <p>thanh toán</p>
