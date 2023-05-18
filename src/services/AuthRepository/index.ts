@@ -37,6 +37,16 @@ export default class AuthRepository {
     }
   }
 
+  async registerAccount(data: Record<string, any>): Promise<any> {
+    try {
+      const rs = await request.post(`client/registerAccount`, data)
+      return Promise.resolve(rs.data)
+    } catch (error) {
+      console.log(error)
+      return Promise.reject(error)
+    }
+  }
+
   // async verifyCode(type: string | (string | null)[], data: Record<string, any>, userId = 0): Promise<any> {
   //   try {
   //     const rs = await request.post(`${this.url}/${userId}/verify/${type}`, data)

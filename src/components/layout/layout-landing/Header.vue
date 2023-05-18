@@ -5,9 +5,9 @@
         <router-link to="/">
           <base-icon icon="logo-icon" size="36"></base-icon>
         </router-link>
-        <el-popover :width="200" placement="bottom" title="" trigger="click">
+        <el-popover ref="popoverMenu" :width="200" placement="bottom" title="" trigger="click">
           <div>
-            <MenuCategory />
+            <MenuCategory @click-category="handlePopoverMenu" />
           </div>
           <template #reference>
             <el-button class="m-2 h-[37px]">
@@ -95,6 +95,7 @@
   const form: Ref<Record<string, any>> = ref({
     inputSearch: ''
   })
+  const popoverMenu: Ref<any> = ref(null)
 
   const handleCart = (): void => {
     if (!authStore.isLogin) {
@@ -119,6 +120,10 @@
       authStore.logout()
       router.push({ name: 'LandingPage' })
     }
+  }
+
+  const handlePopoverMenu = (): void => {
+    popoverMenu.value.hide()
   }
 </script>
 
