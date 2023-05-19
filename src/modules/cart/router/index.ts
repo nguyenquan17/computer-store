@@ -15,6 +15,19 @@ const cartRouter: RouteRecordRaw[] = [
         component: () => import('../view/CartView.vue')
       }
     ]
+  },
+  {
+    path: '/checkout',
+    component: LayoutLanding,
+    name: 'Checkout',
+    redirect: { name: 'CheckoutView' },
+    children: [
+      {
+        path: '',
+        name: 'CheckoutView',
+        component: () => import('../view/CheckoutView.vue')
+      }
+    ]
   }
 ]
 export default cartRouter

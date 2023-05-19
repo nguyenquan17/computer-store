@@ -40,7 +40,16 @@ router.beforeEach(async (to, from, next) => {
   if (!store.isLogin) {
     if (
       includes(
-        ['LandingPage', 'HomeProduct', 'ProductView', 'ProductDetailView', 'FormSignUp', 'FormSignIn', 'CartView'],
+        [
+          'LandingPage',
+          'HomeProduct',
+          'ProductView',
+          'ProductDetailView',
+          'FormSignUp',
+          'FormSignIn',
+          'CartView',
+          'CheckoutView'
+        ],
         to.name
       )
     ) {

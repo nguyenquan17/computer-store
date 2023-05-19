@@ -44,11 +44,28 @@
           <p>thanh toán</p>
         </div>
       </div>
+      <div class="block-right max-h-[300px] w-[33.33%] rounded bg-white">
+        <div class="px-6 py-6">
+          <div class="mb-4 text-base font-bold">Thanh toán</div>
+          <div class="mb-1 flex justify-between">
+            <h3>Tổng tạm tính</h3>
+            <span>8.890.000₫</span>
+          </div>
+          <div class="mb-12 flex justify-between">
+            <h3>Thành tiền</h3>
+            <span>8.890.000₫</span>
+          </div>
+          <base-button class="mb-4" @click="handleNavigationCheckout">Tiếp tục</base-button>
+          <base-button type="plain">Trở lại mua hàng</base-button>
+        </div>
+      </div>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
+  import router from '@/router'
+
   const isCheckAll = ref(false)
   const isIndeterminate: Ref<boolean> = ref(true)
   const fakeCart: Ref<Record<string, any>[]> = ref([
@@ -81,6 +98,9 @@
   ])
   const cartItemSelected: Ref<boolean> = ref(false)
   const updateCheckAllItem = (): void => {}
+  const handleNavigationCheckout = (): void => {
+    router.push({ name: 'CheckoutView' })
+  }
   // const selectedItem: Ref<Record<string, any>> = ref({})
 
   // const checkAllItem = (): void => {

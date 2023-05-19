@@ -49,6 +49,9 @@
   const router = useRouter()
   const baseStore = useBaseStore()
   // const categoryFilter: Ref<ICategory[]> = ref([])
+  const emits = defineEmits<{
+    (e: 'click-category'): void
+  }>()
   const listMenu: Ref<Record<string, any>> = ref([
     {
       id: 0,
@@ -206,7 +209,7 @@
   })
 
   const handleClickMenu = (item: ICategory) => {
-    console.log(item)
+    emits('click-category')
     router.push({ name: 'ProductView', params: { category: item.path } })
   }
 
