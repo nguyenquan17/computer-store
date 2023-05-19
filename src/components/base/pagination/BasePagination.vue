@@ -2,7 +2,7 @@
   <div class="base-pagination">
     <div class="flex items-center justify-between">
       <div class="text-sm text-[#5b616e]">
-        Show
+        Hiển thị
         {{ userFormatNumber(props.query.total == 0 ? 0 : (props.query.page - 1) * props.query.limit + 1) }}
         -
         {{

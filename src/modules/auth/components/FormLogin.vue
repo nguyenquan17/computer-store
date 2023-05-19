@@ -38,12 +38,9 @@
 
 <script setup lang="ts">
   import type { FormRules } from 'element-plus'
-  import { VueRecaptcha } from 'vue-recaptcha'
   import { ElMessage } from 'element-plus'
   import { useBaseStore } from '@/stores/base'
   import { useAuthStore } from '../store'
-  import { useEncrypt } from '@/composables/encrypt'
-  import { apiAuth } from '@/services'
 
   const router = useRouter()
 

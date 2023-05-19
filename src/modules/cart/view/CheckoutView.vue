@@ -23,13 +23,13 @@
               class="flex h-auto min-h-[120px] w-[100%] flex-auto flex-col rounded border border-solid border-[#eaeaea] p-[20px] text-sm"
             >
               <div class="flex items-center justify-between font-bold">
-                <h1 class="pr-2">Nguyễn Anh Quân</h1>
-                <el-icon class="cursor-pointer" size="20">
+                <h1 class="pr-2">{{formCardShippingInfo.consigneeName}}</h1>
+                <el-icon class="cursor-pointer" size="20" @click="handleEditShippingInfo">
                   <Edit />
                 </el-icon>
               </div>
-              <div>0368517926</div>
-              <div>Hoài Đức, Xã Yên Sở, Huyện Hoài Đức, Thành phố Hà Nội</div>
+              <div>{{formCardShippingInfo.consigneePhoneNumber}}</div>
+              <div>{{formCardShippingInfo.deliveryAddress}}</div>
             </div>
           </div>
           <!--          <el-form-item label="Họ và tên">-->
@@ -53,7 +53,8 @@
                 <img alt="" height="50" src="@/assets/images/checkout/paypal-logo.png" width="100" />
               </el-radio>
               <el-radio border class="!h-[90px] w-[48%]" label="2" size="large">
-                <div class="text-sm font-bold">Thanh toán khi nhận hàng</div>
+                <div class="mr-4 text-sm font-bold">Thanh toán khi nhận hàng</div>
+<!--                <img alt="" height="50" src="@/assets/images/checkout/cod-logo.png" width="100" />-->
               </el-radio>
             </el-radio-group>
           </div>
@@ -74,18 +75,44 @@
             <h3>Thành tiền</h3>
             <span>8.890.000₫</span>
           </div>
-          <base-button class="mb-4" @click="handleNavigationCheckout">Tiếp tục</base-button>
+          <base-button class="mb-4" @click="handleNavigationCheckout">Tiến hành thanh toán</base-button>
           <base-button type="plain">Trở lại mua hàng</base-button>
         </div>
       </div>
     </div>
+    <PopupShippingInfo :props-form="formCardShippingInfo" @form-shipping="handleDataFormShipping"/>
+    <PopupPaymentDetail />
   </div>
 </template>
 
 <script lang="ts" setup>
   import { Edit } from '@element-plus/icons-vue'
+  import {useBaseStore} from "@/stores/base";
+  import PopupShippingInfo from "@/modules/cart/components/popup/PopupShippingInfo.vue";
+  import type {IFormShipping} from "@/interfaces";
+  import PopupPaymentDetail from "@/modules/cart/components/popup/PopupPaymentDetail.vue";
 
-  const paymentMethod: Ref<number> = ref(1)
+  const baseStore = useBaseStore()
+  const paymentMethod: Ref<string> = ref('1')
+  const formCardShippingInfo: Ref<IFormShipping> = ref({
+    consigneeName: 'Nguyễn Anh Quân',
+    consigneePhoneNumber: '0368517926',
+    deliveryAddress: 'Hoài Đức, Xã Yên Sở, Huyện Hoài Đức, Thành phố Hà Nội'
+  })
+
+  const handleEditShippingInfo = (): void =>{
+    baseStore.setOpenPopup(true, 'popup-shipping-info')
+  }
+
+  const handleDataFormShipping = (payload: IFormShipping): void =>{
+    formCardShippingInfo.value = {
+      ...payload
+    }
+  }
+  const handleNavigationCheckout = (): void =>{
+  //  if...
+    baseStore.setOpenPopup(true, 'popup-payment-detail')
+  }
 </script>
 
 <style lang="scss" scoped>
