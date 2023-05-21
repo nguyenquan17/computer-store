@@ -1,0 +1,1 @@
+import{J as i}from"./index-ac5c08ef.js";function r(o,f){const e=o.keyCode?o.keyCode:o.which;console.log(f),(e<48||e>57)&&e!==46&&o.preventDefault(),e===46&&i(f,".")&&o.preventDefault()}export{r as u};
