@@ -1,17 +1,11 @@
 <template>
   <div class="layout-balance rounded bg-white shadow-md">
-    <base-tab :list-tab="getTabBaseToken" :tab-active="tabActive" @click="handleClickTab">
-      <template #more-tab>
-        <MoreToken @select="handleClickTabMore"></MoreToken>
-      </template>
-    </base-tab>
-
     <div class="flex justify-between p-6">
       <div
         class="flex h-auto w-1/5 basis-[calc(25%-18px)] flex-col justify-between rounded-lg border border-solid border-[#dbdbdb] py-0 px-4"
       >
         <div class="mt-1.5 flex justify-between">
-          <p>Total Available</p>
+          <p>Total Available Product</p>
           <base-icon color="#CF202F" icon="request-icon-withdraw" size="19"></base-icon>
         </div>
         <span class="mt-2 inline-block w-full text-[24px] font-semibold leading-[24px]">
@@ -121,9 +115,9 @@
   import useOnlyNumber from '@/composables/onlyNumber'
   import useFormatNumberInput from '@/composables/formatNumberInput'
   import type { ITab, IQuery, ISort } from '@/interfaces'
-  import TransactionWithdrawTable from '@/modules/request/components/table/TransactionWithdrawTable.vue'
+  import TransactionWithdrawTable from '@/modules/back-office/components/table/TransactionWithdrawTable.vue'
   import { useBaseStore } from '@/stores/base'
-  import PopupAddProduct from '@/modules/request/components/popup/PopupAddProduct.vue'
+  import PopupAddProduct from '@/modules/back-office/components/popup/PopupAddProduct.vue'
 
   const route = useRoute()
   const router = useRouter()
