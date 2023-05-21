@@ -64,37 +64,40 @@
 
 <script lang="ts" setup>
   import { Discount, OfficeBuilding, Service, Monitor, Setting } from '@element-plus/icons-vue'
-  import { apiCategory } from '@/services'
-  import { useBaseStore } from '@/stores/base'
-  import { useAuthStore } from '@/modules/auth/store'
-  import { toSlug } from '@/util'
+  // import {apiCategory} from '@/services'
+  // import {useBaseStore} from '@/stores/base'
+  // import {useAuthStore} from '@/modules/auth/store'
+  // import {toSlug} from '@/util'
+  import useCategoryProduct from '@/composables/useCategoryProduct'
 
-  const baseStore = useBaseStore()
-  const authStore = useAuthStore()
+  const useCategory = useCategoryProduct()
+  // const baseStore = useBaseStore()
+  // const authStore = useAuthStore()
   const isLoading = ref(true)
   onMounted(async () => {
+    await useCategory.getListAssetCategory()
     // await authStore.getInfoUser()
-    await getListAssetCategory()
+    // await getListAssetCategory()
     isLoading.value = false
   })
 
-  const getListAssetCategory = async () => {
-    try {
-      let convertData = []
-      const result = await apiCategory.getAllCategory()
-      if (result) {
-        convertData = result.data.map(elm => {
-          return {
-            ...elm,
-            path: toSlug(elm.name)
-          }
-        })
-      }
-      baseStore.setListAssetCategory(convertData)
-    } catch (error) {
-      return Promise.reject(error)
-    }
-  }
+  // const getListAssetCategory = async () => {
+  //   try {
+  //     let convertData = []
+  //     const result = await apiCategory.getAllCategory()
+  //     if (result) {
+  //       convertData = result.data.map(elm => {
+  //         return {
+  //           ...elm,
+  //           path: toSlug(elm.name)
+  //         }
+  //       })
+  //     }
+  //     baseStore.setListAssetCategory(convertData)
+  //   } catch (error) {
+  //     return Promise.reject(error)
+  //   }
+  // }
 </script>
 
 <style scoped></style>

@@ -49,7 +49,7 @@
             <template #dropdown>
               <el-dropdown-menu class="dropdown-menu-profile">
                 <el-dropdown-item command="profile">Thông tin cá nhân</el-dropdown-item>
-                <el-dropdown-item command="my-order">Quản lý đơn hàng</el-dropdown-item>
+                <el-dropdown-item command="my-orders">Quản lý đơn hàng</el-dropdown-item>
                 <el-dropdown-item command="my-admin">Quản lý sản phẩm</el-dropdown-item>
                 <el-dropdown-item command="logout" divided>Đăng xuất</el-dropdown-item>
               </el-dropdown-menu>
@@ -119,6 +119,10 @@
       console.log(authStore.authUser)
       authStore.logout()
       router.push({ name: 'LandingPage' })
+    } else if (command === 'profile') {
+      router.push({ name: 'Profile' })
+    } else if (command === 'my-orders') {
+      router.push({ name: 'MyOrders' })
     }
   }
 

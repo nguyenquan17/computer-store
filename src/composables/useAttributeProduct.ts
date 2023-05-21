@@ -19,7 +19,7 @@ export default function useAttributeProduct() {
   // const cpuSeries: Ref<Record<string, any>> = ref([])
   // const mouseType: Ref<Record<string, any>> = ref([])
 
-  const dataList: Record<string, any> = {}
+  const dataList: Record<string, any> = reactive({})
 
   const getAttributeProduct = async (arrAttribute: Array<string>): Promise<void> => {
     try {

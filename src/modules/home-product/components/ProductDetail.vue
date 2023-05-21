@@ -15,7 +15,7 @@
               :thumbs="{ swiper: thumbsSwiper }"
               class="mySwiper2"
             >
-              <swiper-slide v-for="item in dataDetailProduct.imageList" :key="dataDetailProduct.id"
+              <swiper-slide v-for="item in dataDetailProductConvert.imageList" :key="dataDetailProductConvert.id"
                 ><img :src="item" alt="" />
               </swiper-slide>
             </swiper>
@@ -28,23 +28,23 @@
               class="mySwiper"
               @swiper="setThumbsSwiper"
             >
-              <swiper-slide v-for="item in dataDetailProduct.imageList" :key="dataDetailProduct.id"
+              <swiper-slide v-for="item in dataDetailProduct.imageList" :key="dataDetailProductConvert.id"
                 ><img :src="item" alt="" />
               </swiper-slide>
             </swiper>
           </div>
           <div class="product-content">
-            <div class="mb-2 text-2xl font-semibold">{{ dataDetailProduct.productName }}</div>
+            <div class="mb-2 text-2xl font-semibold">{{ dataDetailProductConvert.productName }}</div>
             <div class="mb-6 text-sm text-description">
-              Thương hiệu <span class="text-secondary">{{ dataDetailProduct.brand }}</span>
+              Thương hiệu <span class="text-secondary">{{ dataDetailProductConvert.brand }}</span>
             </div>
-            <div class="mb-2 text-sm text-[#f78212]">Còn {{ dataDetailProduct.quantity }} sản phẩm</div>
-            <span class="text-xl font-bold text-secondary">{{ useFormatNumber(dataDetailProduct.latestPrice) }}₫</span>
+            <div class="mb-2 text-sm text-[#f78212]">Còn {{ dataDetailProductConvert.quantity }} sản phẩm</div>
+            <span class="text-xl font-bold text-secondary">{{ useFormatNumber(dataDetailProductConvert.latestPrice) }}₫</span>
             <div>
               <span class="mr-1 text-xs text-description line-through"
-                >{{ useFormatNumber(dataDetailProduct.retailPrice) }}₫</span
+                >{{ useFormatNumber(dataDetailProductConvert.retailPrice) }}₫</span
               >
-              <span class="text-xs text-secondary">-{{ useFormatNumber(dataDetailProduct.discount) }}%</span>
+              <span class="text-xs text-secondary">-{{ useFormatNumber(dataDetailProductConvert.discount) }}%</span>
             </div>
             <div class="flex py-6">
               <base-button class="mr-2 w-full">Mua ngay</base-button>
@@ -72,23 +72,37 @@
       </div>
       <div class="block-below rounded-sm bg-white px-6 py-6">
         <!--        v-html-->
-        <div class="flex">
-          <div class="description max-w-[66%] flex-[0_0_66%]">
-            Mô tả sản phẩm MacBook Pro 13 inch Z16S00034 của nhà Apple sở hữu một thiết kế thời thượng, sang trọng cùng với tính
-            di động và gọn nhẹ. Máy được trang bị bộ vi xử lý độc quyền Apple M2 có hiệu năng hoạt động tối ưu, giúp xử lý tốt mọi
-            tác vụ hàng ngày hay chỉnh sửa đồ họa. Không những thế, chiếc máy này còn đảm bảo đáp ứng đủ dải nhu cầu sử dụng từ cơ
-            bản đến nâng cao hứa hẹn sẽ làm hài lòng đến mọi khách hàng.
-            <img
-              alt=""
-              src="https://storage.googleapis.com/teko-gae.appspot.com/media/image/2022/10/7/20221007_8f6f10e2-6d0d-4397-ab2e-91910e9422fc.png"
-            />
-            Thiết kế nhỏ gọn, thời thượng và có chất liệu vỏ kim loại cao cấp MacBook 13 inch sở hữu ngôn ngữ thiết kế đặc trưng
-            của nhà Apple, thể hiện được sự thời thượng, tinh tế giúp làm tăng sự sang trọng hơn cho người sở hữu phù hợp cho mọi
-            người dùng, đặc biệt là các doanh nhân. Với tính linh hoạt, nhỏ gọn chỉ với kích thước 30.41 x 21.24 x 1.56cm và trọng
-            lượng khiêm tốn chỉ 1.4kg giúp bạn có thể mang chiếc MacBook này đến bất cứ nơi đâu.
+        <div class="flex justify-between">
+          <div class="description max-w-[66%] flex-[0_0_66.67%]">
+            <h1 class="mb-4 text-xl font-bold">Mô tả sản phẩm</h1>
+            <div>
+              Mô tả sản phẩm MacBook Pro 13 inch Z16S00034 của nhà Apple sở hữu một thiết kế thời thượng, sang trọng cùng với tính
+              di động và gọn nhẹ. Máy được trang bị bộ vi xử lý độc quyền Apple M2 có hiệu năng hoạt động tối ưu, giúp xử lý tốt
+              mọi tác vụ hàng ngày hay chỉnh sửa đồ họa. Không những thế, chiếc máy này còn đảm bảo đáp ứng đủ dải nhu cầu sử dụng
+              từ cơ bản đến nâng cao hứa hẹn sẽ làm hài lòng đến mọi khách hàng.
+              <img
+                alt=""
+                src="https://storage.googleapis.com/teko-gae.appspot.com/media/image/2022/10/7/20221007_8f6f10e2-6d0d-4397-ab2e-91910e9422fc.png"
+              />
+              Thiết kế nhỏ gọn, thời thượng và có chất liệu vỏ kim loại cao cấp MacBook 13 inch sở hữu ngôn ngữ thiết kế đặc trưng
+              của nhà Apple, thể hiện được sự thời thượng, tinh tế giúp làm tăng sự sang trọng hơn cho người sở hữu phù hợp cho
+              mọi người dùng, đặc biệt là các doanh nhân. Với tính linh hoạt, nhỏ gọn chỉ với kích thước 30.41 x 21.24 x 1.56cm và
+              trọng lượng khiêm tốn chỉ 1.4kg giúp bạn có thể mang chiếc MacBook này đến bất cứ nơi đâu.
+            </div>
           </div>
-          <div class="attribute-detail">
+          <div class="attribute-detail flex-[0_0_33.33%] pl-6">
             <!--            component-->
+            <h1 class="mb-4 text-xl font-bold">Thông tin chi tiết</h1>
+            <div
+              v-for="(value, key) in dataDetailProductConvert.attributes"
+              :key="key"
+              class="flex w-full justify-between odd:bg-white even:bg-slate-50"
+            >
+              <div class="flex w-full justify-between px-3 py-3">
+                <div class="flex-[0_0_40%] text-sm font-medium">{{ value.attribute }}</div>
+                <div class="flex-[0_0_60%]">{{ value.value }}</div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -111,13 +125,18 @@
   import 'swiper/css/thumbs'
 
   import { useAuthStore } from '@/modules/auth/store'
+  import useConvertEntity from '@/composables/useConvertEntity'
+  import type { IProductDetail, IProductDetailConvert } from '@/interfaces'
 
   const route = useRoute()
   const authStore = useAuthStore()
+  const useConvertProductEntity = useConvertEntity()
   let thumbsSwiper = null
   const modules: Ref<any> = ref([FreeMode, Pagination, Navigation, Thumbs])
   const isLoading: Ref<boolean> = ref(false)
-  const dataDetailProduct: Ref<Record<string, any>> = ref({})
+  const dataDetailProduct: Ref<IProductDetail> = ref({} as IProductDetail)
+  const dataDetailProductConvert: Ref<IProductDetailConvert> = ref({} as IProductDetailConvert)
+
   onMounted(async () => {
     await getDetailProductById()
   })
@@ -130,6 +149,7 @@
       }
       const result = await apiProduct.getProductDetailById(params)
       dataDetailProduct.value = result.data
+      dataDetailProductConvert.value = useConvertProductEntity.convertProductDetail(dataDetailProduct.value)
       isLoading.value = false
     } catch (e) {
       isLoading.value = false

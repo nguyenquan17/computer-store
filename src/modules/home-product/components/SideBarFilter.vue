@@ -26,7 +26,7 @@
                 @change="handleChangeFilter"
               >
                 <el-checkbox
-                  v-for="item in data.brandProduct"
+                  v-for="item in dataList.brandProduct"
                   :key="item.name"
                   :label="item.value"
                   class="!mr-2 flex w-[90px] flex-wrap"
@@ -36,17 +36,23 @@
             </el-collapse-item>
             <el-collapse-item name="2" title="Màu sắc">
               <el-checkbox-group v-model="checkListColorProduct" @change="handleChangeFilter">
-                <el-checkbox v-for="item in data.colorProduct" :key="item.name" :label="item.value">{{ item.name }} </el-checkbox>
+                <el-checkbox v-for="item in dataList.colorProduct" :key="item.name" :label="item.value"
+                  >{{ item.name }}
+                </el-checkbox>
               </el-checkbox-group>
             </el-collapse-item>
             <el-collapse-item name="3" title="Laptop Series">
               <el-checkbox-group v-model="checkListLaptopSeries" @change="handleChangeFilter">
-                <el-checkbox v-for="item in data.laptopSeries" :key="item.name" :label="item.value">{{ item.name }} </el-checkbox>
+                <el-checkbox v-for="item in dataList.laptopSeries" :key="item.name" :label="item.value"
+                  >{{ item.name }}
+                </el-checkbox>
               </el-checkbox-group>
             </el-collapse-item>
             <el-collapse-item name="4" title="Dung lượng Ram">
               <el-checkbox-group v-model="checkListRamCapacity" @change="handleChangeFilter">
-                <el-checkbox v-for="item in data.ramCapacity" :key="item.name" :label="item.value">{{ item.name }} </el-checkbox>
+                <el-checkbox v-for="item in dataList.ramCapacity" :key="item.name" :label="item.value"
+                  >{{ item.name }}
+                </el-checkbox>
               </el-checkbox-group>
             </el-collapse-item>
           </el-collapse>
@@ -58,9 +64,10 @@
 
 <script lang="ts" setup>
   import useAttributeProduct from '@/composables/useAttributeProduct'
+  import { Attribute } from '@/util/enum'
 
   const route = useRoute()
-  const useAttribute = useAttributeProduct()
+  const { dataList, getAttributeProduct } = useAttributeProduct()
 
   const value = ref([4, 8])
   const filter: Ref<Record<string, any>> = ref({
@@ -85,13 +92,13 @@
   const checkListMouseType: Ref<Record<string, any>> = ref([])
 
   const activeNames = ref(['1', '2', '3', '4'])
-  const data: Ref<Record<string, any>> = ref({})
+  // const data: Ref<Record<string, any>> = ref({})
   onMounted(async () => {
     const pathUrl = route.params.category
     if (pathUrl === 'laptop') {
-      await useAttribute.getAttributeProduct(['brandProduct', 'colorProduct', 'laptopSeries', 'ramCapacity'])
-      console.log(useAttribute.dataList)
-      data.value = useAttribute.dataList
+      await getAttributeProduct([Attribute.brandProduct, Attribute.colorProduct, Attribute.laptopSeries, Attribute.ramCapacity])
+      // console.log(useAttribute.dataList)
+      // data.value = dataList
     }
   })
 

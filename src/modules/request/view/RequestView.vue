@@ -15,10 +15,10 @@
           <base-icon color="#CF202F" icon="request-icon-withdraw" size="19"></base-icon>
         </div>
         <span class="mt-2 inline-block w-full text-[24px] font-semibold leading-[24px]">
-          {{ useFormatCurrency(dataSummaryRequest.totalAmount, tabActive) }}
+          <!--          {{ useFormatCurrency(dataSummaryRequest.totalAmount, tabActive) }}-->
           <span class="text-xs font-normal">{{ tabActive }}</span>
         </span>
-        <p class="mt-2 mb-4 text-sm font-normal">${{ useFormatCurrency(dataSummaryRequest.totalAmountUsd, 'USD') }}</p>
+        <!--        <p class="mt-2 mb-4 text-sm font-normal">${{ useFormatCurrency(dataSummaryRequest.totalAmountUsd, 'USD') }}</p>-->
       </div>
     </div>
     <base-filter
@@ -120,8 +120,7 @@
   import useDisableTime from '@/composables/disableTime'
   import useOnlyNumber from '@/composables/onlyNumber'
   import useFormatNumberInput from '@/composables/formatNumberInput'
-  import type { ITab, IQuery, ISort, ITransactionWithdraw, ISummaryRequest } from '@/interfaces'
-  import { apiRequest } from '@/services'
+  import type { ITab, IQuery, ISort } from '@/interfaces'
   import TransactionWithdrawTable from '@/modules/request/components/table/TransactionWithdrawTable.vue'
   import { useBaseStore } from '@/stores/base'
   import PopupAddProduct from '@/modules/request/components/popup/PopupAddProduct.vue'
@@ -130,7 +129,7 @@
   const router = useRouter()
   const baseStore = useBaseStore()
 
-  const dataTransactionWithDraw: Ref<ITransactionWithdraw[]> = ref([
+  const dataTransactionWithDraw: Ref<Record<string, any>[]> = ref([
     {
       id: 31576,
       transactionType: 'WITHDRAW',
@@ -265,10 +264,10 @@
   const getListWithDraw = async (): Promise<void> => {
     try {
       isLoading.value = true
-      const result = await apiRequest.getListWithDraw({ ...query.value, ...filter.value, currency: tabActive.value })
-      // dataTransactionWithDraw.value = result.transactions.content
-      dataSummaryRequest.value = result.summaryRequest[0]
-      query.value.total = result.transactions.totalElements
+      // const result = await apiRequest.getListWithDraw({ ...query.value, ...filter.value, currency: tabActive.value })
+      // // dataTransactionWithDraw.value = result.transactions.content
+      // dataSummaryRequest.value = result.summaryRequest[0]
+      // query.value.total = result.transactions.totalElements
       isLoading.value = false
     } catch (e) {
       isLoading.value = false
