@@ -3,32 +3,33 @@
     <el-table
       ref="table"
       v-loading="props.loading"
-      class="base-custom-table be-flex-item"
-      :empty-text="props.emptyText"
       :data="props.data"
+      :empty-text="props.emptyText"
       :show-summary="props.showSummary"
       :sum-text="props.sumText"
+      class="base-custom-table be-flex-item"
       @row-click="handleRowClick"
+      @selection-change="handleSelectionChange"
     >
       <template #append>
         <slot name="append" />
       </template>
       <template #empty>
-        <empty-block :show="!props.data.length" :empty-text="emptyText" />
+        <empty-block :empty-text="emptyText" :show="!props.data.length" />
       </template>
       <slot />
     </el-table>
     <base-pagination
       v-if="showPagination"
-      :query="query"
       :label="label"
+      :query="query"
       @limit-change="emits('limit-change', $event)"
       @page-change="emits('page-change', $event)"
     />
   </div>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
   import type { IQuery } from '@/interfaces'
 
   interface IProp {
@@ -63,11 +64,15 @@
   const emits = defineEmits<{
     (e: 'page-change', page: number): void
     (e: 'limit-change', limit: number): void
-    (e: 'row-click', rpw: Record<string, any>): void
+    (e: 'row-click', row: Record<string, any>): void
+    (e: 'selection-change', row: Record<string, any>): void
   }>()
 
   const handleRowClick = (row: Record<string, any>) => {
     emits('row-click', row)
+  }
+  const handleSelectionChange = (val: Record<string, any>) => {
+    emits('selection-change', val)
   }
 </script>
 
