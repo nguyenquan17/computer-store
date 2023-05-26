@@ -1,58 +1,53 @@
 <template>
   <base-popup
-      :is-show-footer="true"
-      class="popup-payment-detail"
-      name="popup-payment-detail"
-      width="1200px"
-      @close="handleClose"
-      @open="handleOpen"
+    :is-show-footer="true"
+    class="popup-payment-detail"
+    name="popup-payment-detail"
+    width="1200px"
+    @close="handleClose"
+    @open="handleOpen"
   >
     <template #title>Chi tiết thanh toán</template>
     <div>
       <div>
         <div class="mb-4">
-          <h1 class="font-bold text-base mb-4 ">Thông tin nhận hàng</h1>
-          <div class="flex font-medium text-sm w-full">
+          <h1 class="mb-4 text-base font-bold">Thông tin nhận hàng</h1>
+          <div class="flex w-full text-sm font-medium">
             <h1 class="mr-1 flex-[0_0_12%]">Họ và tên:</h1>
             <div>Nguyễn Anh Quân</div>
           </div>
-          <div class="flex font-medium text-sm w-full">
+          <div class="flex w-full text-sm font-medium">
             <h1 class="mr-1 flex-[0_0_12%]">Số điện thoại:</h1>
             <span>0368517926</span>
           </div>
-          <div class="flex font-medium text-sm w-full">
+          <div class="flex w-full text-sm font-medium">
             <h1 class="mr-1 flex-[0_0_12%]">Địa chỉ nhận hàng:</h1>
             <div>Số 34 Hoàng Cầu, tòa nhà Viễn Đông, Ô chợ Dừa, Đống Đa, Hà Nội</div>
           </div>
         </div>
         <div>
-          <h1 class="font-bold text-base mb-4">Thông tin đơn hàng</h1>
-          <base-table
-              :loading="false"
-              :data="dataFake"
-              :query="{}"
-              label="sản phẩm"
-          >
-            <el-table-column label="#" type="index" :index="1" align="center" width="80" />
-            <el-table-column label="Tên sản phẩm" prop="name" align="left">
+          <h1 class="mb-4 text-base font-bold">Thông tin đơn hàng</h1>
+          <base-table :data="dataFake" :loading="false" :query="{}" label="sản phẩm">
+            <el-table-column :index="1" align="center" label="#" type="index" width="80" />
+            <el-table-column align="left" label="Tên sản phẩm" prop="name">
               <template #default="scope">
                 <div class="flex items-center">
-                  <img :src="scope.row.image" alt="" width="60" height="60">
-                  <p class="ml-4">{{scope.row.name}}</p>
+                  <img :src="scope.row.image" alt="" height="60" width="60" />
+                  <p class="ml-4">{{ scope.row.name }}</p>
                 </div>
               </template>
             </el-table-column>
-            <el-table-column label="Số lượng" prop="quantity" align="right" width="150"> </el-table-column>
-            <el-table-column label="Đơn giá" prop="latestPrice" align="right" width="250">
-<!--              <template #default="scope">-->
-<!--                <p class=""></p>-->
-<!--              </template>-->
+            <el-table-column align="right" label="Số lượng" prop="quantity" width="150"></el-table-column>
+            <el-table-column align="right" label="Đơn giá" prop="latestPrice" width="250">
+              <!--              <template #default="scope">-->
+              <!--                <p class=""></p>-->
+              <!--              </template>-->
             </el-table-column>
           </base-table>
         </div>
         <div class="mb-4">
-          <h1 class="font-bold text-base mb-4 ">Thông tin thanh toán</h1>
-          <div class="flex font-medium text-sm w-full items-center">
+          <h1 class="mb-4 text-base font-bold">Thông tin thanh toán</h1>
+          <div class="flex w-full items-center text-sm font-medium">
             <h1 class="mr-1 flex-[0_0_16%]">Phương thức thanh toán:</h1>
             <div class="flex items-center">
               <!--            <div class="mr-4 text-sm font-bold">Thanh toán qua</div>-->
@@ -65,43 +60,43 @@
     <template #footer>
       <div class="flex justify-end">
         <base-button class="mr-4" type="plain">Quay lại</base-button>
-        <base-button type="primary">
-          Xác nhận
-        </base-button>
+        <base-button type="primary"> Xác nhận </base-button>
+        <payment-stripe />
       </div>
     </template>
   </base-popup>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
+  import PaymentStripe from '@/modules/cart/components/popup/PaymentStripe.vue'
 
-const dataFake: Ref<Record<string, any>[]> = ref([
-  {
-    id:0,
-    name: 'Laptop Asus Zenbook 14 OLED UX3402Z UX3402ZA-KM221W (14inch 90Hz/Intel Core i7 1260P/16GB/512GB SSD/Windows 11 Home/1.3kg)',
-    image: 'https://lh3.googleusercontent.com/rnIVOAhuK4DqaHOsT3vGKI_rdZTtfAbpW3klDiKfLfXDjrvjrBI7JLCOkNegNx5lXWU4uIkoBaeTIMQsrMngAPg0xDzvBSGz',
-    retailPrice: 25990000,
-    latestPrice: 20990000,
-    quantity: 2,
-  },
-  {
-    id:0,
-    name: 'Laptop Asus Zenbook 14 OLED UX3402Z UX3402ZA-KM221W (14inch 90Hz/Intel Core i7 1260P/16GB/512GB SSD/Windows 11 Home/1.3kg) ',
-    image: 'https://lh3.googleusercontent.com/rnIVOAhuK4DqaHOsT3vGKI_rdZTtfAbpW3klDiKfLfXDjrvjrBI7JLCOkNegNx5lXWU4uIkoBaeTIMQsrMngAPg0xDzvBSGz',
-    retailPrice: 25990000,
-    latestPrice: 20990000,
-    quantity: 2,
+  const dataFake: Ref<Record<string, any>[]> = ref([
+    {
+      id: 0,
+      name: 'Laptop Asus Zenbook 14 OLED UX3402Z UX3402ZA-KM221W (14inch 90Hz/Intel Core i7 1260P/16GB/512GB SSD/Windows 11 Home/1.3kg)',
+      image:
+        'https://lh3.googleusercontent.com/rnIVOAhuK4DqaHOsT3vGKI_rdZTtfAbpW3klDiKfLfXDjrvjrBI7JLCOkNegNx5lXWU4uIkoBaeTIMQsrMngAPg0xDzvBSGz',
+      retailPrice: 25990000,
+      latestPrice: 20990000,
+      quantity: 2
+    },
+    {
+      id: 0,
+      name: 'Laptop Asus Zenbook 14 OLED UX3402Z UX3402ZA-KM221W (14inch 90Hz/Intel Core i7 1260P/16GB/512GB SSD/Windows 11 Home/1.3kg) ',
+      image:
+        'https://lh3.googleusercontent.com/rnIVOAhuK4DqaHOsT3vGKI_rdZTtfAbpW3klDiKfLfXDjrvjrBI7JLCOkNegNx5lXWU4uIkoBaeTIMQsrMngAPg0xDzvBSGz',
+      retailPrice: 25990000,
+      latestPrice: 20990000,
+      quantity: 2
+    }
+  ])
+
+  const handleOpen = (): void => {
+    console.log()
   }
-])
-
-const handleOpen = ():void =>{
-  console.log()
-}
-const handleClose = ():void =>{
-  console.log()
-}
+  const handleClose = (): void => {
+    console.log()
+  }
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>
