@@ -25,11 +25,11 @@
                 <el-input v-model="form.name" placeholder="VD: 'Laptop Asus Zenbook...'"></el-input>
               </el-form-item>
             </div>
-            <div class="flex justify-between">
-              <el-form-item class="flex-1" label="Mô tả ngắn sản phẩm">
-                <el-input v-model="form.shortDescription" :rows="4" placeholder="Nhập mô tả sản phẩm" type="textarea"></el-input>
-              </el-form-item>
-            </div>
+            <!--            <div class="flex justify-between">-->
+            <!--              <el-form-item class="flex-1" label="Mô tả ngắn sản phẩm">-->
+            <!--                <el-input v-model="form.shortDescription" :rows="4" placeholder="Nhập mô tả sản phẩm" type="textarea"></el-input>-->
+            <!--              </el-form-item>-->
+            <!--            </div>-->
             <div class="wrap-editor mb-6">
               <div class="">Mô tả chi tiết sản phẩm</div>
               <jodit-editor v-model="form.description" :config="config" />
@@ -105,18 +105,18 @@
               </el-form-item>
             </div>
             <div class="flex justify-between">
-              <el-form-item class="mr-10 flex-1" label="Số lượng">
-                <el-input v-model="form.quantity" placeholder="Nhập số lượng"></el-input>
+              <el-form-item class="mr-10 flex-1" label="Số lượng" prop="quantity">
+                <el-input v-model="form.quantity" placeholder="Nhập số lượng" type="number"></el-input>
               </el-form-item>
-              <el-form-item class="flex-1" label="Bảo hành">
-                <el-input v-model="form.warranty" placeholder="Nhập thời gian bảo hành"></el-input>
+              <el-form-item class="flex-1" label="Bảo hành" prop="warranty">
+                <el-input v-model="form.warranty" placeholder="Nhập thời gian bảo hành" type="number"></el-input>
               </el-form-item>
             </div>
           </div>
           <div class="right ml-6 flex-[0.4]">
             <h1 class="mb-4 text-xl font-bold">Thông tin thuộc tính</h1>
             <div v-if="form.categoryId === 1">
-              <FormLaptopAttribute />
+              <FormLaptopAttribute @form-attribute="handleFormAttribute" />
             </div>
           </div>
           <!--          <input multiple type="file" @change="handleFileUpload" />-->
@@ -153,12 +153,12 @@
     imageList: [],
     description: '',
     //shortDescription
-    shortDescription: '',
+    // shortDescription: null,
     retailPrice: '',
     latestPrice: '',
-    quantity: '',
-    featured: '',
-    warranty: ''
+    quantity: 0,
+    featured: 1,
+    warranty: 0
   })
   const listCategory: Ref<ICategory[]> = ref([])
   const config: Ref<Record<string, any>> = ref({
@@ -244,6 +244,15 @@
     }
   }
 
+  const handleFormAttribute = (payload: Record<string, any>): void => {
+    console.log(payload)
+    form.value = {
+      ...form.value,
+      ...payload
+    }
+    console.log(form.value)
+  }
+
   // const handleFileUpload = event => {
   //   const files = event.target.files
   //   console.log(files)
@@ -265,7 +274,13 @@
 
   const handleCreateProduct = async (): Promise<void> => {
     try {
-      await apiProduct.createProduct(form)
+      await apiProduct.createProduct({
+        ...form.value,
+        quantity: +form.value.quantity,
+        retailPrice: +form.value.retailPrice,
+        latestPrice: +form.value.latestPrice,
+        warranty: +form.value.warranty
+      })
     } catch (e) {
       console.log(e)
     }

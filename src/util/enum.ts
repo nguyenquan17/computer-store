@@ -9,7 +9,7 @@ export enum Attribute {
   monitorRefreshRate = 'monitorRefreshRate',
   monitorPanel = 'monitorPanel',
   monitorResolution = 'monitorResolution',
-  monitorSize = 'getMonitorSize',
+  monitorSize = 'monitorSize',
   ramCapacity = 'ramCapacity',
   ramSeries = 'ramSeries',
   cpuSocket = 'cpuSocket',

@@ -10,7 +10,7 @@ const productManagementRouter: RouteRecordRaw[] = [
     redirect: { name: 'ProductManagementView' },
     children: [
       {
-        path: '/',
+        path: '',
         name: 'ProductManagementView',
         meta: {
           module: 'ProductManagement',
