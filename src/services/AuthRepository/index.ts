@@ -21,7 +21,7 @@ export default class AuthRepository {
 
   async getInfo(userId: number): Promise<any> {
     try {
-      const result = await request.get(`/client/detail/${userId}`)
+      const result = await request.get(`/client/detail?userId=${userId}`)
       return Promise.resolve(result.data)
     } catch (error) {
       return Promise.reject(error)

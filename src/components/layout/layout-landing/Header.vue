@@ -44,7 +44,7 @@
         <div v-else class="flex items-center">
           <el-dropdown @command="handleCommand">
             <span class="el-dropdown-link font-medium text-description">
-              Xin Chào, Nguyễn Quân<el-icon class="el-icon--right"><arrow-down /></el-icon>
+              Xin Chào, {{ authStore.user.fullName }}<el-icon class="el-icon--right"><arrow-down /></el-icon>
             </span>
             <template #dropdown>
               <el-dropdown-menu class="dropdown-menu-profile">
@@ -69,7 +69,7 @@
         <div class="text-sm" @click="handleCart">
           <p>Giỏ hàng của bạn</p>
           <div class="flex items-center">
-            <span>(0)</span>
+            <span>{{ getLengthCart ? `(${getLengthCart})` : `(0)` }}</span>
             <p>sản phẩm</p>
           </div>
         </div>
@@ -88,10 +88,12 @@
   import MenuCategory from '@/modules/landing/components/MenuCategory.vue'
   import { useAuthStore } from '@/modules/auth/store'
   import { ElMessage } from 'element-plus'
+  import { useCartStore } from '@/modules/cart/store'
 
   const router = useRouter()
   const baseStore = useBaseStore()
   const authStore = useAuthStore()
+  const cartStore = useCartStore()
   const form: Ref<Record<string, any>> = ref({
     inputSearch: ''
   })
@@ -125,6 +127,10 @@
       router.push({ name: 'MyOrders' })
     }
   }
+
+  const getLengthCart = computed<number>(() => {
+    return cartStore.detailCart.cartItemDetailList.length
+  })
 
   const handlePopoverMenu = (): void => {
     popoverMenu.value.hide()

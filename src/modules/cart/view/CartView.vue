@@ -3,7 +3,7 @@
     <div class="mr-4 w-[66.67%]">
       <h1 class="mb-4 text-2xl font-bold">Giỏ hàng</h1>
       <div class="mb-4 flex justify-between text-sm text-description">
-        <p>Giỏ hàng (03) sản phẩm</p>
+        <p>Giỏ hàng {{ getLengthCart ? `(${getLengthCart})` : `(0)` }} sản phẩm</p>
         <p class="mr-4 cursor-pointer text-hyperlink">Xóa tất cả</p>
       </div>
     </div>
@@ -41,28 +41,37 @@
 
         <!--        -->
         <base-table
-          ref="multipleTableRef"
-          :data="allItems"
-          :showPagination="false"
-          class="table-cart"
-          @selection-change="handleSelectionChange"
+            ref="multipleTableRef"
+            :data="getListCart"
+            :showPagination="false"
+            class="table-cart"
+            @selection-change="handleSelectionChange"
         >
-          <el-table-column type="selection" width="40" />
+          <el-table-column type="selection" width="40"/>
           <el-table-column label="" width="">
             <template #default="scope">
               <div class="flex items-center">
-                <img :src="scope.row.productImageMain" alt="" height="80" width="80" />
+                <img :src="scope.row.productImage" alt="" height="80" width="80"/>
                 <p class="ml-2 text-sm line-clamp-2">{{ scope.row.productName }}</p>
               </div>
             </template>
           </el-table-column>
-          <el-table-column align="right" label="Đơn giá" property="totalPricePerProduct" width="120" />
-          <el-table-column align="center" label="Số lượng" property="itemQuantity" width="130">
+          <el-table-column align="right" label="Đơn giá" property="productLatestPrice" width="120">
             <template #default="scope">
-              <el-input-number v-model="scope.row.itemQuantity" />
+              <div class="text-sm font-medium">{{ userFormatNumber(scope.row.productLatestPrice) }}đ</div>
             </template>
           </el-table-column>
-          <el-table-column align="right" label="Thành tiền" property="productLatestPrice" show-overflow-tooltip width="120" />
+          <el-table-column align="center" label="Số lượng" property="itemQuantity" width="130">
+            <template #default="scope">
+              <el-input-number v-model="scope.row.itemQuantity"/>
+            </template>
+          </el-table-column>
+          <el-table-column align="right" label="Thành tiền" property="totalPricePerProduct" show-overflow-tooltip
+                           width="120">
+            <template #default="scope">
+              <div class="text-sm font-medium">{{ userFormatNumber(scope.row.totalPricePerProduct) }}đ</div>
+            </template>
+          </el-table-column>
         </base-table>
       </div>
       <div class="block-right max-h-[300px] w-[33.33%] rounded bg-white">
@@ -70,13 +79,13 @@
           <div class="mb-4 text-base font-bold">Thanh toán</div>
           <div class="mb-1 flex justify-between">
             <h3>Tổng tạm tính</h3>
-            <span>8.890.000₫</span>
+            <span class="font-bold">{{ userFormatNumber(getPriceProductSelected) }}₫</span>
           </div>
           <div class="mb-12 flex justify-between">
             <h3>Thành tiền</h3>
-            <span>8.890.000₫</span>
+            <span class="font-bold">{{ userFormatNumber(getPriceProductSelected) }}₫</span>
           </div>
-          <base-button class="mb-4" @click="handleNavigationCheckout">Tiếp tục</base-button>
+          <base-button :disabled="disableButton" class="mb-4" @click="handleNavigationCheckout">Tiếp tục</base-button>
           <base-button type="plain">Trở lại mua hàng</base-button>
         </div>
       </div>
@@ -85,75 +94,89 @@
 </template>
 
 <script lang="ts" setup>
-  import router from '@/router'
-  import BaseTable from '@/components/base/table/BaseTable.vue'
+import router from '@/router'
+import BaseTable from '@/components/base/table/BaseTable.vue'
+import {useCartStore} from '@/modules/cart/store'
+import userFormatNumber from '@/composables/formatNumber'
+import {forEach} from "lodash-es";
 
-  const multipleSelection = ref<any>([])
-  const isCheckAll = ref(false)
-  const isIndeterminate: Ref<boolean> = ref(true)
-  const allItems: Ref<Record<string, any>[]> = ref([
-    {
-      productId: 1,
-      productName:
+const cartStore = useCartStore()
+const multipleSelection = ref<any>([])
+const isCheckAll = ref(false)
+const isIndeterminate: Ref<boolean> = ref(true)
+const allItems: Ref<Record<string, any>[]> = ref([
+  {
+    productId: 1,
+    productName:
         'Laptop Asus Zenbook 14 OLED UX3402Z UX3402ZA-KM221W (14inch 90Hz/Intel Core i7 1260P/16GB/512GB SSD/Windows 11 Home/1.3kg)',
-      productImageMain:
+    productImageMain:
         'https://lh3.googleusercontent.com/rnIVOAhuK4DqaHOsT3vGKI_rdZTtfAbpW3klDiKfLfXDjrvjrBI7JLCOkNegNx5lXWU4uIkoBaeTIMQsrMngAPg0xDzvBSGz=w500-h500-rw',
-      itemQuantity: 3,
-      productLatestPrice: 25990000,
-      totalPricePerProduct: 2599000
-    },
-    {
-      productId: 2,
-      productName:
+    itemQuantity: 3,
+    productLatestPrice: 25990000,
+    totalPricePerProduct: 2599000
+  },
+  {
+    productId: 2,
+    productName:
         'Laptop Asus Zenbook 14 OLED UX3402Z UX3402ZA-KM221W (14inch 90Hz/Intel Core i7 1260P/16GB/512GB SSD/Windows 11 Home/1.3kg)',
-      productImageMain:
+    productImageMain:
         'https://lh3.googleusercontent.com/rnIVOAhuK4DqaHOsT3vGKI_rdZTtfAbpW3klDiKfLfXDjrvjrBI7JLCOkNegNx5lXWU4uIkoBaeTIMQsrMngAPg0xDzvBSGz=w500-h500-rw',
-      itemQuantity: 3,
-      productLatestPrice: 25990000,
-      totalPricePerProduct: 2599000
-    }
-  ])
-  const cartItemSelected: Ref<boolean> = ref(false)
-  const updateCheckAllItem = (): void => {}
-  const handleNavigationCheckout = (): void => {
-    router.push({ name: 'CheckoutView' })
+    itemQuantity: 3,
+    productLatestPrice: 25990000,
+    totalPricePerProduct: 2599000
   }
+])
+const handleNavigationCheckout = (): void => {
+  router.push({name: 'CheckoutView'})
+}
 
-  const handleSelectionChange = (val: any): void => {
-    console.log(val)
-    multipleSelection.value = val
-  }
-  // const selectedItem: Ref<Record<string, any>> = ref({})
+const handleSelectionChange = (val: any): void => {
+  multipleSelection.value = val
+  cartStore.setDataCartItem(val)
+}
 
-  // const checkAllItem = (): void => {
-  //   isCheckAll.value = !isCheckAll.value
-  //   cartItemSelected.value = []
-  //   if (isCheckAll.value) {
-  //     for (const key in fakeCart.value) {
-  //       console.log(key)
-  //       cartItemSelected.value.push(fakeCart.value[key])
-  //     }
-  //   }
-  // }
-  // const updateCheckAllItem = (): void => {
-  //   isCheckAll.value = fakeCart.value.length === cartItemSelected.value.length
-  // }
+onMounted(async () => {
+  await cartStore.getDetailCart()
+})
+const getLengthCart = computed<number>(() => {
+  return cartStore.detailCart.cartItemDetailList.length
+})
+
+const getListCart = computed<Record<string, any>[]>(() => {
+  return cartStore.detailCart.cartItemDetailList
+})
+
+const getPriceProductSelected = computed<number>(() => {
+  let totalPrice = 0
+  forEach(cartStore.cartItemSelected, item => {
+    totalPrice += item.totalPricePerProduct
+  })
+  return totalPrice
+})
+
+// const getCartPrice = computed<number>(() => {
+//   return cartStore.detailCart.cartPrice
+// })
+
+const disableButton = computed<boolean>(() => {
+  return cartStore.cartItemSelected.length === 0
+})
 </script>
 
 <style lang="scss" scoped>
-  :deep(.base-table .el-table__header-wrapper .el-table__header thead th .cell) {
-    font-size: 14px;
-  }
+:deep(.base-table .el-table__header-wrapper .el-table__header thead th .cell) {
+  font-size: 14px;
+}
 
-  :deep(.base-table td) {
-    border-bottom: none !important;
-  }
+:deep(.base-table td) {
+  border-bottom: none !important;
+}
 
-  :deep(.el-table__inner-wrapper::before) {
-    height: 0;
-  }
+:deep(.el-table__inner-wrapper::before) {
+  height: 0;
+}
 
-  :deep(.el-input-number) {
-    width: 110px;
-  }
+:deep(.el-input-number) {
+  width: 110px;
+}
 </style>

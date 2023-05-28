@@ -8,19 +8,11 @@ import { trim } from 'lodash-es'
 export const useAuthStore = defineStore('auth', () => {
   const user = ref<IUser>({
     userId: 0,
-    firstName: '',
-    lastName: '',
-    fullName: '',
-    displayName: '',
     email: '',
-    login2faEnabled: 0,
-    avatar: '',
-    userType: '',
-    phoneVerified: 0,
-    emailVerified: 0,
-    roles: [],
-    roundsUserCanBuy: [],
-    affiliationCode: ''
+    fullName: '',
+    phoneNumber: '',
+    address: '',
+    dob: ''
   })
   const authUser = ref<Record<string, any>>({
     userId: Cookies.get('user_id') || '',
@@ -36,8 +28,7 @@ export const useAuthStore = defineStore('auth', () => {
   const getInfoUser = async () => {
     const userId = Cookies.get('user_id')
     const info = await apiAuth.getInfo(userId)
-    console.log(info)
-    user.value = info
+    user.value = info.data
   }
 
   const login = async (data: Record<string, any>) => {

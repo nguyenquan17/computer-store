@@ -45,11 +45,13 @@
   import { useAuthStore } from '@/modules/auth/store'
   import { ElMessage } from 'element-plus'
   import type { FormRules } from 'element-plus'
+  import { useCartStore } from '@/modules/cart/store'
 
   const router = useRouter()
 
   const baseStore = useBaseStore()
   const authStore = useAuthStore()
+  const cartStore = useCartStore()
 
   interface IForm {
     username: string
@@ -91,6 +93,8 @@
       let message = ''
       authStore.login({ ...form.value }).then(async () => {
         await router.push({ name: 'LandingPage' })
+        await authStore.getInfoUser()
+        await cartStore.getDetailCart()
         message = 'Đăng nhập thành công'
         ElMessage.success({ message, duration: 5000 })
         baseStore.setOpenPopup(false, 'popup-login')

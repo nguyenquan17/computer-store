@@ -20,12 +20,12 @@
           <!--          </div>-->
           <div class="block-right flex w-[48%] flex-wrap rounded bg-white">
             <div
-              class="flex h-auto min-h-[120px] w-[100%] flex-auto flex-col rounded border border-solid border-[#eaeaea] p-[20px] text-sm"
+                class="flex h-auto min-h-[120px] w-[100%] flex-auto flex-col rounded border border-solid border-[#eaeaea] p-[20px] text-sm"
             >
               <div class="flex items-center justify-between font-bold">
                 <h1 class="pr-2">{{ formCardShippingInfo.consigneeName }}</h1>
                 <el-icon class="cursor-pointer" size="20" @click="handleEditShippingInfo">
-                  <Edit />
+                  <Edit/>
                 </el-icon>
               </div>
               <div>{{ formCardShippingInfo.consigneePhoneNumber }}</div>
@@ -50,7 +50,7 @@
             <el-radio-group v-model="paymentMethod" class="flex w-full justify-between">
               <el-radio border class="!mr-[0] flex !h-[90px] w-[48%]" label="1" size="large">
                 <div class="mr-4 text-sm font-bold">Thanh toán qua</div>
-                <img alt="" height="50" src="@/assets/images/checkout/paypal-logo.png" width="100" />
+                <img alt="" height="50" src="@/assets/images/checkout/paypal-logo.png" width="100"/>
               </el-radio>
               <el-radio border class="!h-[90px] w-[48%]" label="2" size="large">
                 <div class="mr-4 text-sm font-bold">Thanh toán khi nhận hàng</div>
@@ -65,7 +65,7 @@
           <div class="mb-4 text-base font-bold">Thanh toán</div>
           <div class="mb-1 flex justify-between">
             <h3>Tổng tạm tính</h3>
-            <span>8.890.000₫</span>
+            <span>{{ userFormatNumber(getPriceProductSelected) }}₫</span>
           </div>
           <div class="mb-1 flex justify-between">
             <h3>Phí vận chuyển</h3>
@@ -73,50 +73,64 @@
           </div>
           <div class="mb-12 flex justify-between">
             <h3>Thành tiền</h3>
-            <span>8.890.000₫</span>
+            <span>{{ userFormatNumber(getPriceProductSelected) }}₫</span>
           </div>
           <base-button class="mb-4" @click="handleNavigationCheckout">Tiến hành thanh toán</base-button>
           <base-button type="plain">Trở lại mua hàng</base-button>
         </div>
       </div>
     </div>
-    <PopupShippingInfo :props-form="formCardShippingInfo" @form-shipping="handleDataFormShipping" />
-    <PopupPaymentDetail />
+    <PopupShippingInfo :props-form="formCardShippingInfo" @form-shipping="handleDataFormShipping"/>
+    <PopupPaymentDetail/>
   </div>
 </template>
 
 <script lang="ts" setup>
-  import { Edit } from '@element-plus/icons-vue'
-  import { useBaseStore } from '@/stores/base'
-  import PopupShippingInfo from '@/modules/cart/components/popup/PopupShippingInfo.vue'
-  import type { IFormShipping } from '@/interfaces'
-  import PopupPaymentDetail from '@/modules/cart/components/popup/PopupPaymentDetail.vue'
+import {Edit} from '@element-plus/icons-vue'
+import {useBaseStore} from '@/stores/base'
+import PopupShippingInfo from '@/modules/cart/components/popup/PopupShippingInfo.vue'
+import type {IFormShipping} from '@/interfaces'
+import PopupPaymentDetail from '@/modules/cart/components/popup/PopupPaymentDetail.vue'
+import {useAuthStore} from '@/modules/auth/store'
+import {forEach} from 'lodash-es'
+import {useCartStore} from '@/modules/cart/store'
+import userFormatNumber from "@/composables/formatNumber";
 
-  const baseStore = useBaseStore()
-  const paymentMethod: Ref<string> = ref('1')
-  const formCardShippingInfo: Ref<IFormShipping> = ref({
-    consigneeName: 'Nguyễn Anh Quân',
-    consigneePhoneNumber: '0368517926',
-    deliveryAddress: 'Hoài Đức, Xã Yên Sở, Huyện Hoài Đức, Thành phố Hà Nội'
+const baseStore = useBaseStore()
+const authStore = useAuthStore()
+const cartStore = useCartStore()
+const paymentMethod: Ref<string> = ref('1')
+const formCardShippingInfo: Ref<IFormShipping> = ref({
+  consigneeName: authStore.user.fullName,
+  consigneePhoneNumber: authStore.user.phoneNumber,
+  deliveryAddress: authStore.user.address
+})
+
+const handleEditShippingInfo = (): void => {
+  baseStore.setOpenPopup(true, 'popup-shipping-info')
+}
+
+const handleDataFormShipping = (payload: IFormShipping): void => {
+  formCardShippingInfo.value = {
+    ...payload
+  }
+}
+const handleNavigationCheckout = (): void => {
+  //  if...
+  baseStore.setOpenPopup(true, 'popup-payment-detail')
+}
+
+const getPriceProductSelected = computed<number>(() => {
+  let totalPrice = 0
+  forEach(cartStore.cartItemSelected, item => {
+    totalPrice += item.totalPricePerProduct
   })
-
-  const handleEditShippingInfo = (): void => {
-    baseStore.setOpenPopup(true, 'popup-shipping-info')
-  }
-
-  const handleDataFormShipping = (payload: IFormShipping): void => {
-    formCardShippingInfo.value = {
-      ...payload
-    }
-  }
-  const handleNavigationCheckout = (): void => {
-    //  if...
-    baseStore.setOpenPopup(true, 'popup-payment-detail')
-  }
+  return totalPrice
+})
 </script>
 
 <style lang="scss" scoped>
-  .el-radio__label {
-    display: flex;
-  }
+.el-radio__label {
+  display: flex;
+}
 </style>

@@ -13,9 +13,9 @@ export default class CartRepository {
     }
   }
 
-  async getProductDetailById(params: Record<string, any>): Promise<any> {
+  async getCartDetail(params: Record<string, any>): Promise<any> {
     try {
-      const rs = await request.get(`${this.prefix}/detail`, { params })
+      const rs = await request.get(`${this.prefix}/getCartDetail`, { params: params })
       return Promise.resolve(rs.data)
     } catch (error) {
       console.log(error)

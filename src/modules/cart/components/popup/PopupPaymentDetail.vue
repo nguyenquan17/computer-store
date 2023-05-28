@@ -27,21 +27,21 @@
         </div>
         <div>
           <h1 class="mb-4 text-base font-bold">Thông tin đơn hàng</h1>
-          <base-table :data="dataFake" :loading="false" :query="{}" label="sản phẩm">
+          <base-table :data="getListCartSelected" :loading="false" :query="{}" label="sản phẩm">
             <el-table-column :index="1" align="center" label="#" type="index" width="80" />
             <el-table-column align="left" label="Tên sản phẩm" prop="name">
               <template #default="scope">
                 <div class="flex items-center">
-                  <img :src="scope.row.image" alt="" height="60" width="60" />
-                  <p class="ml-4">{{ scope.row.name }}</p>
+                  <img :src="scope.row.productImage" alt="" height="60" width="60" />
+                  <p class="ml-4">{{ scope.row.productName }}</p>
                 </div>
               </template>
             </el-table-column>
-            <el-table-column align="right" label="Số lượng" prop="quantity" width="150"></el-table-column>
-            <el-table-column align="right" label="Đơn giá" prop="latestPrice" width="250">
-              <!--              <template #default="scope">-->
-              <!--                <p class=""></p>-->
-              <!--              </template>-->
+            <el-table-column align="right" label="Số lượng" prop="itemQuantity" width="150"></el-table-column>
+            <el-table-column align="right" label="Đơn giá" prop="totalPricePerProduct" width="250">
+              <template #default="scope">
+                <div class="text-sm font-medium">{{ userFormatNumber(scope.row.totalPricePerProduct) }}đ</div>
+              </template>
             </el-table-column>
           </base-table>
         </div>
@@ -60,7 +60,7 @@
     <template #footer>
       <div class="flex justify-end">
         <base-button class="mr-4" type="plain">Quay lại</base-button>
-        <base-button type="primary"> Xác nhận </base-button>
+        <base-button type="primary"> Xác nhận</base-button>
         <payment-stripe />
       </div>
     </template>
@@ -69,7 +69,10 @@
 
 <script lang="ts" setup>
   import PaymentStripe from '@/modules/cart/components/popup/PaymentStripe.vue'
+  import { useCartStore } from '@/modules/cart/store'
+  import userFormatNumber from '@/composables/formatNumber'
 
+  const cartStore = useCartStore()
   const dataFake: Ref<Record<string, any>[]> = ref([
     {
       id: 0,
@@ -90,6 +93,9 @@
       quantity: 2
     }
   ])
+  const getListCartSelected = computed<Record<string, any>[]>(() => {
+    return cartStore.cartItemSelected
+  })
 
   const handleOpen = (): void => {
     console.log()
