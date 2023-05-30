@@ -11,9 +11,9 @@
           </div>
         </div>
       </div>
-      <div v-if="!isLoading" class="flex min-h-[65vh] flex-wrap justify-start bg-white">
+      <div v-if="!productStore.isLoading" class="flex min-h-[65vh] flex-wrap justify-start bg-white">
         <div
-          v-for="item in listProduct"
+          v-for="item in productStore.listProduct"
           :key="item.id"
           class="h-fit w-[25%] border-b border-r border-l border-solid border-[#eaeaea]"
           @click="handleClickItem(item)"
@@ -34,10 +34,12 @@
   import { apiProduct } from '@/services'
   import type { IProduct } from '@/interfaces'
   import { filter } from 'lodash-es'
+  import { useProductStore } from '@/modules/home-product/store'
 
   const route = useRoute()
   const router = useRouter()
   const baseStore = useBaseStore()
+  const productStore = useProductStore()
   const isLoading: Ref<boolean> = ref(false)
   const listProduct: Ref<IProduct[]> = ref([])
   const listSort: Ref<Record<string, any>> = ref([
@@ -55,7 +57,8 @@
     }
   ])
   onMounted(async () => {
-    await getProductList()
+    // await getProductList()
+    await productStore.getProductList()
   })
 
   const getProductList = async () => {
@@ -70,7 +73,7 @@
       }
       const result = await apiProduct.getAllProductByCategory(body)
       if (result) {
-        listProduct.value = result.data
+        listProduct.value = result.data.content
       }
       isLoading.value = false
     } catch (e) {
@@ -80,7 +83,6 @@
   }
 
   const handleClickItem = (item: IProduct): void => {
-    console.log(item.productId)
     router.push({ name: 'ProductDetailView', params: { detail: item.productId } })
   }
 

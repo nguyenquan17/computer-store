@@ -27,7 +27,7 @@
         </div>
         <div>
           <h1 class="mb-4 text-base font-bold">Thông tin đơn hàng</h1>
-          <base-table :data="getListCartSelected" :loading="false" :query="{}" label="sản phẩm">
+          <base-table :data="getListCartSelected" :loading="false" :query="{}" :showPagination="false" label="sản phẩm">
             <el-table-column :index="1" align="center" label="#" type="index" width="80" />
             <el-table-column align="left" label="Tên sản phẩm" prop="name">
               <template #default="scope">
@@ -61,7 +61,8 @@
       <div class="flex justify-end">
         <base-button class="mr-4" type="plain">Quay lại</base-button>
         <base-button type="primary"> Xác nhận</base-button>
-        <payment-stripe />
+        <!--        <payment-stripe />-->
+        <!--        <stripe />-->
       </div>
     </template>
   </base-popup>
@@ -71,6 +72,7 @@
   import PaymentStripe from '@/modules/cart/components/popup/PaymentStripe.vue'
   import { useCartStore } from '@/modules/cart/store'
   import userFormatNumber from '@/composables/formatNumber'
+  import Stripe from '@/modules/cart/components/popup/Stripe.vue'
 
   const cartStore = useCartStore()
   const dataFake: Ref<Record<string, any>[]> = ref([

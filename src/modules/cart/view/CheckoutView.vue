@@ -20,12 +20,12 @@
           <!--          </div>-->
           <div class="block-right flex w-[48%] flex-wrap rounded bg-white">
             <div
-                class="flex h-auto min-h-[120px] w-[100%] flex-auto flex-col rounded border border-solid border-[#eaeaea] p-[20px] text-sm"
+              class="flex h-auto min-h-[120px] w-[100%] flex-auto flex-col rounded border border-solid border-[#eaeaea] p-[20px] text-sm"
             >
               <div class="flex items-center justify-between font-bold">
                 <h1 class="pr-2">{{ formCardShippingInfo.consigneeName }}</h1>
                 <el-icon class="cursor-pointer" size="20" @click="handleEditShippingInfo">
-                  <Edit/>
+                  <Edit />
                 </el-icon>
               </div>
               <div>{{ formCardShippingInfo.consigneePhoneNumber }}</div>
@@ -50,7 +50,7 @@
             <el-radio-group v-model="paymentMethod" class="flex w-full justify-between">
               <el-radio border class="!mr-[0] flex !h-[90px] w-[48%]" label="1" size="large">
                 <div class="mr-4 text-sm font-bold">Thanh toán qua</div>
-                <img alt="" height="50" src="@/assets/images/checkout/paypal-logo.png" width="100"/>
+                <img alt="" height="50" src="@/assets/images/checkout/paypal-logo.png" width="100" />
               </el-radio>
               <el-radio border class="!h-[90px] w-[48%]" label="2" size="large">
                 <div class="mr-4 text-sm font-bold">Thanh toán khi nhận hàng</div>
@@ -80,57 +80,63 @@
         </div>
       </div>
     </div>
-    <PopupShippingInfo :props-form="formCardShippingInfo" @form-shipping="handleDataFormShipping"/>
-    <PopupPaymentDetail/>
+    <PopupShippingInfo :props-form="formCardShippingInfo" @form-shipping="handleDataFormShipping" />
+    <PopupPaymentDetail />
+    <!--    <payment-stripe />-->
+    <!--    <stripe />-->
+    <test-stripe-js />
   </div>
 </template>
 
 <script lang="ts" setup>
-import {Edit} from '@element-plus/icons-vue'
-import {useBaseStore} from '@/stores/base'
-import PopupShippingInfo from '@/modules/cart/components/popup/PopupShippingInfo.vue'
-import type {IFormShipping} from '@/interfaces'
-import PopupPaymentDetail from '@/modules/cart/components/popup/PopupPaymentDetail.vue'
-import {useAuthStore} from '@/modules/auth/store'
-import {forEach} from 'lodash-es'
-import {useCartStore} from '@/modules/cart/store'
-import userFormatNumber from "@/composables/formatNumber";
+  import { Edit } from '@element-plus/icons-vue'
+  import { useBaseStore } from '@/stores/base'
+  import PopupShippingInfo from '@/modules/cart/components/popup/PopupShippingInfo.vue'
+  import type { IFormShipping } from '@/interfaces'
+  import PopupPaymentDetail from '@/modules/cart/components/popup/PopupPaymentDetail.vue'
+  import { useAuthStore } from '@/modules/auth/store'
+  import { forEach } from 'lodash-es'
+  import { useCartStore } from '@/modules/cart/store'
+  import userFormatNumber from '@/composables/formatNumber'
+  import PaymentStripe from '@/modules/cart/components/popup/PaymentStripe.vue'
+  import Stripe from '@/modules/cart/components/popup/Stripe.vue'
+  import TestStripeJs from '@/modules/cart/components/popup/TestStripeJs.vue'
 
-const baseStore = useBaseStore()
-const authStore = useAuthStore()
-const cartStore = useCartStore()
-const paymentMethod: Ref<string> = ref('1')
-const formCardShippingInfo: Ref<IFormShipping> = ref({
-  consigneeName: authStore.user.fullName,
-  consigneePhoneNumber: authStore.user.phoneNumber,
-  deliveryAddress: authStore.user.address
-})
-
-const handleEditShippingInfo = (): void => {
-  baseStore.setOpenPopup(true, 'popup-shipping-info')
-}
-
-const handleDataFormShipping = (payload: IFormShipping): void => {
-  formCardShippingInfo.value = {
-    ...payload
-  }
-}
-const handleNavigationCheckout = (): void => {
-  //  if...
-  baseStore.setOpenPopup(true, 'popup-payment-detail')
-}
-
-const getPriceProductSelected = computed<number>(() => {
-  let totalPrice = 0
-  forEach(cartStore.cartItemSelected, item => {
-    totalPrice += item.totalPricePerProduct
+  const baseStore = useBaseStore()
+  const authStore = useAuthStore()
+  const cartStore = useCartStore()
+  const paymentMethod: Ref<string> = ref('1')
+  const formCardShippingInfo: Ref<IFormShipping> = ref({
+    consigneeName: authStore.user.fullName,
+    consigneePhoneNumber: authStore.user.phoneNumber,
+    deliveryAddress: authStore.user.address
   })
-  return totalPrice
-})
+
+  const handleEditShippingInfo = (): void => {
+    baseStore.setOpenPopup(true, 'popup-shipping-info')
+  }
+
+  const handleDataFormShipping = (payload: IFormShipping): void => {
+    formCardShippingInfo.value = {
+      ...payload
+    }
+  }
+  const handleNavigationCheckout = (): void => {
+    //  if...
+    baseStore.setOpenPopup(true, 'popup-payment-detail')
+  }
+
+  const getPriceProductSelected = computed<number>(() => {
+    let totalPrice = 0
+    forEach(cartStore.cartItemSelected, item => {
+      totalPrice += item.totalPricePerProduct
+    })
+    return totalPrice
+  })
 </script>
 
 <style lang="scss" scoped>
-.el-radio__label {
-  display: flex;
-}
+  .el-radio__label {
+    display: flex;
+  }
 </style>

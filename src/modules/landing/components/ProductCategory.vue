@@ -53,7 +53,7 @@
         categoryId: props.dataCategory.id
       }
       const result = await apiProduct.getAllProductByCategory(body)
-      dataBlock.value = result.data
+      dataBlock.value = result.data.content
     } catch (e) {
       console.log(e)
     }

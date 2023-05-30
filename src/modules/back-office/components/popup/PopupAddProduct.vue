@@ -25,11 +25,11 @@
                 <el-input v-model="form.name" placeholder="VD: 'Laptop Asus Zenbook...'"></el-input>
               </el-form-item>
             </div>
-            <!--            <div class="flex justify-between">-->
-            <!--              <el-form-item class="flex-1" label="Mô tả ngắn sản phẩm">-->
-            <!--                <el-input v-model="form.shortDescription" :rows="4" placeholder="Nhập mô tả sản phẩm" type="textarea"></el-input>-->
-            <!--              </el-form-item>-->
-            <!--            </div>-->
+            <div class="flex justify-between">
+              <el-form-item class="flex-1" label="Mô tả ngắn sản phẩm">
+                <el-input v-model="form.shortDescription" :rows="4" placeholder="Nhập mô tả sản phẩm" type="textarea"></el-input>
+              </el-form-item>
+            </div>
             <div class="wrap-editor mb-6">
               <div class="">Mô tả chi tiết sản phẩm</div>
               <jodit-editor v-model="form.description" :config="config" />
@@ -116,7 +116,7 @@
           <div class="right ml-6 flex-[0.4]">
             <h1 class="mb-4 text-xl font-bold">Thông tin thuộc tính</h1>
             <div v-if="form.categoryId === 1">
-              <FormLaptopAttribute @form-attribute="handleFormAttribute" />
+              <!--              <FormLaptopAttribute @form-attribute="handleFormAttribute" />-->
             </div>
           </div>
           <!--          <input multiple type="file" @change="handleFileUpload" />-->
@@ -153,7 +153,7 @@
     imageList: [],
     description: '',
     //shortDescription
-    // shortDescription: null,
+    shortDescription: '',
     retailPrice: '',
     latestPrice: '',
     quantity: 0,

@@ -2,8 +2,9 @@ import { defineStore } from 'pinia'
 import { apiCart } from '@/services'
 import { useAuthStore } from '@/modules/auth/store'
 
-const useAuth = useAuthStore()
 export const useCartStore = defineStore('cart', () => {
+  const useAuth = useAuthStore()
+
   const cartItemSelected: Ref<Record<string, any>[]> = ref([])
   const detailCart: Ref<Record<string, any>> = ref({})
   const setDataCartItem = (list: Record<string, any>[]) => {

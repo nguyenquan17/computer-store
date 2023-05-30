@@ -1,7 +1,8 @@
 <template>
   <div>
-    <stripe-checkout ref="checkoutRef" :pk="publishableKey" :session-id="sessionId" />
+    <stripe-checkout ref="checkoutRef" :pk="publishableKey" :session-id="sessionId"></stripe-checkout>
     <button @click="submit">Checkout!</button>
+    <!--    <button id="checkout-button" type="button">Checkout</button>-->
   </div>
 </template>
 
@@ -19,7 +20,7 @@
 
       return {
         loading: false,
-        sessionId: 'session-id',
+        sessionId: '',
         publishableKey: publicKey,
         lineItems: [
           {
@@ -46,6 +47,9 @@
       }
     },
     onMounted() {},
+    unmounted() {
+      this.$refs.checkoutRef = null
+    },
     methods: {
       async submit() {
         this.sessionId = await apiOrder.createCheckoutSession(this.lineItems)

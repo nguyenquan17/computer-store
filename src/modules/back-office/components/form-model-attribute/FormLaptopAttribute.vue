@@ -20,7 +20,7 @@
           </el-select>
         </el-form-item>
         <el-form-item label="Series CPU" prop="cpuSeries">
-          <el-select v-model="formAttribute.cpuSeries" filterable placeholder="Chọn series laptop" remote reserve-keyword>
+          <el-select v-model="formAttribute.cpuSeries" filterable placeholder="Chọn series cpu" remote reserve-keyword>
             <el-option v-for="item in dataList.cpuSeries" :key="item.value" :label="item.name" :value="item.value" />
           </el-select>
         </el-form-item>

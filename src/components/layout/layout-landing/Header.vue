@@ -117,19 +117,22 @@
   }
   const handleCommand = (command: string | number | object) => {
     if (command === 'logout') {
-      console.log(command)
-      console.log(authStore.authUser)
       authStore.logout()
       router.push({ name: 'LandingPage' })
     } else if (command === 'profile') {
       router.push({ name: 'Profile' })
     } else if (command === 'my-orders') {
       router.push({ name: 'MyOrders' })
+    } else if (command === 'my-admin') {
+      router.push({ name: 'ProductManagementView' })
     }
   }
 
   const getLengthCart = computed<number>(() => {
-    return cartStore.detailCart.cartItemDetailList.length
+    if (authStore.isLogin) {
+      return cartStore.detailCart.cartItemDetailList.length
+    }
+    return 0
   })
 
   const handlePopoverMenu = (): void => {
