@@ -130,7 +130,7 @@
 
   const getLengthCart = computed<number>(() => {
     if (authStore.isLogin) {
-      return cartStore.detailCart.cartItemDetailList.length
+      return cartStore.detailCart?.cartItemDetailList ? cartStore.detailCart?.cartItemDetailList.length : 0
     }
     return 0
   })

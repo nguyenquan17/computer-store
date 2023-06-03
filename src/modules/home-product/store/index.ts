@@ -2,7 +2,7 @@ import { defineStore } from 'pinia'
 import { filter } from 'lodash-es'
 import { apiProduct } from '@/services'
 import { useBaseStore } from '@/stores/base'
-import type { IProduct } from '@/interfaces'
+import type { IProduct, IQuery } from '@/interfaces'
 
 export const useProductStore = defineStore('product', () => {
   const route = useRoute()
@@ -14,12 +14,16 @@ export const useProductStore = defineStore('product', () => {
   const ramCapacityList: Ref<Record<string, any>> = ref([])
   const listProduct: Ref<IProduct[]> = ref([])
   const isLoading: Ref<boolean> = ref(false)
+  const query: Ref<IQuery> = ref({
+    page: 0,
+    size: 20,
+    total: 0
+  })
   const getProductList = async () => {
     try {
       isLoading.value = true
       const body = {
-        page: 0,
-        size: 20,
+        ...query.value,
         sort: 'desc',
         order: 'productId',
         categoryId: filter(baseStore.listAssetCategory, item => item.path === route.params.category)[0].id,
@@ -31,6 +35,7 @@ export const useProductStore = defineStore('product', () => {
       const result = await apiProduct.getAllProductByCategory(body)
       if (result) {
         listProduct.value = result.data.content
+        query.value.total = result.data.totalElements
       }
       isLoading.value = false
     } catch (e) {
@@ -38,5 +43,5 @@ export const useProductStore = defineStore('product', () => {
       console.log(e)
     }
   }
-  return { brandList, colorList, laptopSeriesList, ramCapacityList, listProduct, isLoading, getProductList }
+  return { brandList, colorList, laptopSeriesList, ramCapacityList, listProduct, isLoading, getProductList, query }
 })

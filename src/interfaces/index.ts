@@ -198,7 +198,7 @@ export interface ISort {
 
 export interface IQuery {
   page: number
-  limit: number
+  size: number
   total: number
 
   [x: string]: any

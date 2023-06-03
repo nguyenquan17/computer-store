@@ -22,7 +22,7 @@
             placeholder="Password"
           >
             <template #append>
-              <div class="icon-eye cursor-pointer" @click="showPass = !showPass">
+              <div class="icon-eye flex h-full cursor-pointer items-center" @click="showPass = !showPass">
                 <base-icon :icon="showPass == true ? 'eye-off' : 'eye'" size="22" />
               </div>
             </template>
@@ -91,7 +91,12 @@
     try {
       isLoading.value = true
       let message = ''
-      authStore.login({ ...form.value }).then(async () => {
+      authStore.login({ ...form.value }).then(async res => {
+        if (res.status === 500) {
+          ElMessage.error({ message: `${res.message}`, duration: 5000 })
+          isLoading.value = false
+          return
+        }
         await router.push({ name: 'LandingPage' })
         await authStore.getInfoUser()
         await cartStore.getDetailCart()
@@ -100,6 +105,7 @@
         baseStore.setOpenPopup(false, 'popup-login')
         isLoading.value = false
       })
+      isLoading.value = false
     } catch (e) {
       isLoading.value = false
       console.log(e)

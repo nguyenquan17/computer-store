@@ -35,7 +35,7 @@
     tip: {
       required: false,
       type: String,
-      default: 'Loading...'
+      default: 'Đang tải...'
     }
   })
 

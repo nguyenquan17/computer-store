@@ -7,13 +7,12 @@ export default class AuthRepository {
   async login(data: Record<string, any>): Promise<any> {
     try {
       delete request.defaults.headers.common['Authorization']
-      data.employee = true
       const result = await request.post(`${this.url}/login`, data, {
         headers: {
           // Device: device
         }
       })
-      return Promise.resolve(result.data.data)
+      return Promise.resolve(result.data)
     } catch (error) {
       return Promise.reject(error)
     }

@@ -42,6 +42,26 @@
           <!--            <el-input></el-input>-->
           <!--          </el-form-item>-->
         </div>
+        <div class="mb-4">
+          <h1 class="mb-4 text-sm font-bold">Thông tin đơn hàng</h1>
+          <base-table :data="getListCart" :loading="false" :query="{}" :showPagination="false" label="sản phẩm">
+            <el-table-column :index="1" align="center" label="#" type="index" width="80" />
+            <el-table-column align="left" label="Tên sản phẩm" prop="name">
+              <template #default="scope">
+                <div class="flex items-center">
+                  <img :src="scope.row.productImage" alt="" height="60" width="60" />
+                  <p class="ml-4">{{ scope.row.productName }}</p>
+                </div>
+              </template>
+            </el-table-column>
+            <el-table-column align="right" label="Số lượng" prop="itemQuantity" width="150"></el-table-column>
+            <el-table-column align="right" label="Đơn giá" prop="totalPricePerProduct" width="150">
+              <template #default="scope">
+                <div class="text-sm font-medium">{{ userFormatNumber(scope.row.totalPricePerProduct) }}đ</div>
+              </template>
+            </el-table-column>
+          </base-table>
+        </div>
         <div>
           <div class="flex items-center justify-between">
             <h1 class="mb-4 text-sm font-bold">Phương thức thanh toán</h1>
@@ -50,7 +70,7 @@
             <el-radio-group v-model="paymentMethod" class="flex w-full justify-between">
               <el-radio border class="!mr-[0] flex !h-[90px] w-[48%]" label="1" size="large">
                 <div class="mr-4 text-sm font-bold">Thanh toán qua</div>
-                <img alt="" height="50" src="@/assets/images/checkout/paypal-logo.png" width="100" />
+                <img alt="" height="50" src="@/assets/images/checkout/logo-stripe.png" width="100" />
               </el-radio>
               <el-radio border class="!h-[90px] w-[48%]" label="2" size="large">
                 <div class="mr-4 text-sm font-bold">Thanh toán khi nhận hàng</div>
@@ -65,7 +85,7 @@
           <div class="mb-4 text-base font-bold">Thanh toán</div>
           <div class="mb-1 flex justify-between">
             <h3>Tổng tạm tính</h3>
-            <span>{{ userFormatNumber(getPriceProductSelected) }}₫</span>
+            <span class="font-bold">{{ userFormatNumber(getPriceProductSelected) }}₫</span>
           </div>
           <div class="mb-1 flex justify-between">
             <h3>Phí vận chuyển</h3>
@@ -73,9 +93,10 @@
           </div>
           <div class="mb-12 flex justify-between">
             <h3>Thành tiền</h3>
-            <span>{{ userFormatNumber(getPriceProductSelected) }}₫</span>
+            <span class="font-bold">{{ userFormatNumber(getPriceProductSelected) }}₫</span>
           </div>
-          <base-button class="mb-4" @click="handleNavigationCheckout">Tiến hành thanh toán</base-button>
+          <!--          <base-button class="mb-4" @click="handleNavigationCheckout">Tiến hành thanh toán</base-button>-->
+          <CheckoutStripe :form-card-shipping-info="formCardShippingInfo" />
           <base-button type="plain">Trở lại mua hàng</base-button>
         </div>
       </div>
@@ -84,7 +105,7 @@
     <PopupPaymentDetail />
     <!--    <payment-stripe />-->
     <!--    <stripe />-->
-    <test-stripe-js />
+    <!--    <test-stripe-js />-->
   </div>
 </template>
 
@@ -98,9 +119,10 @@
   import { forEach } from 'lodash-es'
   import { useCartStore } from '@/modules/cart/store'
   import userFormatNumber from '@/composables/formatNumber'
-  import PaymentStripe from '@/modules/cart/components/popup/PaymentStripe.vue'
-  import Stripe from '@/modules/cart/components/popup/Stripe.vue'
-  import TestStripeJs from '@/modules/cart/components/popup/TestStripeJs.vue'
+  // import PaymentStripe from '@/modules/cart/components/popup/PaymentStripe.vue'
+  // import Stripe from '@/modules/cart/components/popup/Stripe.vue'
+  // import TestStripeJs from '@/modules/cart/components/popup/CheckoutStripe.vue'
+  import CheckoutStripe from '@/modules/cart/components/popup/CheckoutStripe.vue'
 
   const baseStore = useBaseStore()
   const authStore = useAuthStore()
@@ -126,9 +148,13 @@
     baseStore.setOpenPopup(true, 'popup-payment-detail')
   }
 
+  const getListCart = computed<Record<string, any>[]>(() => {
+    return cartStore.detailCart?.cartItemDetailList ? cartStore.detailCart.cartItemDetailList : []
+  })
+
   const getPriceProductSelected = computed<number>(() => {
     let totalPrice = 0
-    forEach(cartStore.cartItemSelected, item => {
+    forEach(cartStore.detailCart?.cartItemDetailList, item => {
       totalPrice += item.totalPricePerProduct
     })
     return totalPrice

@@ -51,7 +51,7 @@
             <h1 class="mr-1 flex-[0_0_16%]">Phương thức thanh toán:</h1>
             <div class="flex items-center">
               <!--            <div class="mr-4 text-sm font-bold">Thanh toán qua</div>-->
-              <img alt="" height="50" src="@/assets/images/checkout/paypal-logo.png" width="100" />
+              <img alt="" height="50" src="@/assets/images/checkout/logo-stripe.png" width="100" />
             </div>
           </div>
         </div>

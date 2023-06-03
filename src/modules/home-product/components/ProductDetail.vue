@@ -33,7 +33,7 @@
               </swiper-slide>
             </swiper>
           </div>
-          <div class="product-content">
+          <div class="product-content w-full">
             <div class="mb-2 text-2xl font-semibold">{{ dataDetailProductConvert.productName }}</div>
             <div class="mb-6 text-sm text-description">
               Thương hiệu <span class="text-secondary">{{ dataDetailProductConvert.brand }}</span>
@@ -168,7 +168,7 @@
         ElNotification({
           type: 'success',
           title: 'Đã thêm sản phẩm vào giỏ hàng',
-          duration: 0
+          duration: 3000
         })
       }
       isLoading.value = false

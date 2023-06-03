@@ -4,6 +4,7 @@ import Cookies from 'js-cookie'
 import request from '@/plugins/request'
 import type { IUser } from '@/interfaces'
 import { trim } from 'lodash-es'
+import { ElMessage } from 'element-plus'
 
 export const useAuthStore = defineStore('auth', () => {
   const user = ref<IUser>({
@@ -35,12 +36,17 @@ export const useAuthStore = defineStore('auth', () => {
     try {
       const result = await apiAuth.login(data)
       console.log(result, 'LOGIN')
-      authUser.value = result
+      if (result.status === 500) {
+        console.log('roi vao day')
+        // ElMessage.error({ message: `${result.message}`, duration: 5000 })
+        return Promise.resolve(result)
+      }
+      authUser.value = result.data
       // console.log(authUser.value)
-      request.defaults.headers.common['Authorization'] = `Bearer ${result.token}`
-      Cookies.set('access_token', result.token, { expires: 1 })
-      Cookies.set('user_id', result.userId, { expires: 1 })
-      return Promise.resolve()
+      request.defaults.headers.common['Authorization'] = `Bearer ${result.data.token}`
+      Cookies.set('access_token', result.data.token, { expires: 1 })
+      Cookies.set('user_id', result.data.userId, { expires: 1 })
+      return Promise.resolve(result)
     } catch (error) {
       return Promise.reject(error)
     }

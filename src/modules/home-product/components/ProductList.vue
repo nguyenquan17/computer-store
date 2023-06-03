@@ -11,14 +11,20 @@
           </div>
         </div>
       </div>
-      <div v-if="!productStore.isLoading" class="flex min-h-[65vh] flex-wrap justify-start bg-white">
-        <div
-          v-for="item in productStore.listProduct"
-          :key="item.id"
-          class="h-fit w-[25%] border-b border-r border-l border-solid border-[#eaeaea]"
-          @click="handleClickItem(item)"
-        >
-          <Item :data-item="item" />
+      <div v-if="!productStore.isLoading">
+        <div v-if="productStore.listProduct.length" class="flex min-h-fit flex-wrap justify-start bg-white">
+          <div
+            v-for="item in productStore.listProduct"
+            :key="item.id"
+            class="h-fit w-[25%] border-b border-r border-l border-solid border-[#eaeaea]"
+            @click="handleClickItem(item)"
+          >
+            <Item :data-item="item" />
+          </div>
+          <base-pagination :query="productStore.query" class="w-full !px-4" label="sản phẩm" />
+        </div>
+        <div v-else class="flex min-h-[65vh] items-center justify-center bg-white">
+          <empty-block :show="!productStore.listProduct.length" class="flex flex-col items-center"></empty-block>
         </div>
       </div>
       <div v-else class="flex min-h-[65vh] flex-wrap justify-start bg-white">
@@ -35,6 +41,8 @@
   import type { IProduct } from '@/interfaces'
   import { filter } from 'lodash-es'
   import { useProductStore } from '@/modules/home-product/store'
+  import EmptyBlock from '@/components/base/empty/EmptyBlock.vue'
+  import BasePagination from '@/components/base/pagination/BasePagination.vue'
 
   const route = useRoute()
   const router = useRouter()
@@ -61,26 +69,26 @@
     await productStore.getProductList()
   })
 
-  const getProductList = async () => {
-    try {
-      isLoading.value = true
-      const body = {
-        page: 0,
-        size: 20,
-        sort: 'desc',
-        order: 'productId',
-        categoryId: filter(baseStore.listAssetCategory, item => item.path === route.params.category)[0].id
-      }
-      const result = await apiProduct.getAllProductByCategory(body)
-      if (result) {
-        listProduct.value = result.data.content
-      }
-      isLoading.value = false
-    } catch (e) {
-      isLoading.value = false
-      console.log(e)
-    }
-  }
+  // const getProductList = async () => {
+  //   try {
+  //     isLoading.value = true
+  //     const body = {
+  //       page: 0,
+  //       size: 20,
+  //       sort: 'desc',
+  //       order: 'productId',
+  //       categoryId: filter(baseStore.listAssetCategory, item => item.path === route.params.category)[0].id
+  //     }
+  //     const result = await apiProduct.getAllProductByCategory(body)
+  //     if (result) {
+  //       listProduct.value = result.data.content
+  //     }
+  //     isLoading.value = false
+  //   } catch (e) {
+  //     isLoading.value = false
+  //     console.log(e)
+  //   }
+  // }
 
   const handleClickItem = (item: IProduct): void => {
     router.push({ name: 'ProductDetailView', params: { detail: item.productId } })
@@ -89,9 +97,15 @@
   watch(
     () => route.params.category,
     () => {
-      getProductList()
+      if (route.params.category) {
+        productStore.getProductList()
+      }
     }
   )
 </script>
 
-<style scoped></style>
+<style lang="scss" scoped>
+  :deep(.empty-block .empty-text) {
+    line-height: 60px;
+  }
+</style>
