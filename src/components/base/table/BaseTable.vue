@@ -4,12 +4,16 @@
       ref="table"
       v-loading="props.loading"
       :data="props.data"
+      :default-expand-all="props.defaultExpandAll"
       :empty-text="props.emptyText"
+      :row-key="props.rowKey"
       :show-summary="props.showSummary"
       :sum-text="props.sumText"
       class="base-custom-table be-flex-item"
+      lazy
       @row-click="handleRowClick"
       @selection-change="handleSelectionChange"
+      @expand-change="handleExpandChange"
     >
       <template #append>
         <slot name="append" />
@@ -42,6 +46,9 @@
     query?: IQuery
     label?: string
     showPagination?: boolean
+    rowKey?: string
+    expandRowKeys?: Array<any>
+    defaultExpandAll?: boolean
   }
 
   const props = withDefaults(defineProps<IProp>(), {
@@ -54,6 +61,9 @@
     // summaryMethod: (_data: Record<string, any>) => [],
     label: '',
     showPagination: true,
+    rowKey: '',
+    expandRowKeys: () => [],
+    defaultExpandAll: false,
     query: () => ({
       page: 1,
       limit: 20,
@@ -66,6 +76,7 @@
     (e: 'limit-change', limit: number): void
     (e: 'row-click', row: Record<string, any>): void
     (e: 'selection-change', row: Record<string, any>): void
+    (e: 'expand-change', expand: Record<string, any>): void
   }>()
 
   const handleRowClick = (row: Record<string, any>) => {
@@ -73,6 +84,9 @@
   }
   const handleSelectionChange = (val: Record<string, any>) => {
     emits('selection-change', val)
+  }
+  const handleExpandChange = (row: Record<string, any>, expand: Record<string, any>) => {
+    emits('expand-change', { row, expand })
   }
 </script>
 

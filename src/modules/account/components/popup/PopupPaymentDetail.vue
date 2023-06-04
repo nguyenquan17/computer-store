@@ -7,40 +7,40 @@
     @close="handleClose"
     @open="handleOpen"
   >
-    <template #title>Chi tiết thanh toán</template>
+    <template #title>Chi tiết đơn hàng</template>
     <div>
       <div>
         <div class="mb-4">
           <h1 class="mb-4 text-base font-bold">Thông tin nhận hàng</h1>
           <div class="flex w-full text-sm font-medium">
             <h1 class="mr-1 flex-[0_0_12%]">Họ và tên:</h1>
-            <div>Nguyễn Anh Quân</div>
+            <div>{{ detailOrder.consigneeName }}</div>
           </div>
           <div class="flex w-full text-sm font-medium">
             <h1 class="mr-1 flex-[0_0_12%]">Số điện thoại:</h1>
-            <span>0368517926</span>
+            <span>{{ detailOrder.consigneePhoneNumber }}</span>
           </div>
           <div class="flex w-full text-sm font-medium">
             <h1 class="mr-1 flex-[0_0_12%]">Địa chỉ nhận hàng:</h1>
-            <div>Số 34 Hoàng Cầu, tòa nhà Viễn Đông, Ô chợ Dừa, Đống Đa, Hà Nội</div>
+            <div>{{ detailOrder.deliveryAddress }}</div>
           </div>
         </div>
-        <div>
+        <div class="mb-4">
           <h1 class="mb-4 text-base font-bold">Thông tin đơn hàng</h1>
-          <base-table :data="getListCartSelected" :loading="false" :query="{}" :showPagination="false" label="sản phẩm">
+          <base-table :data="detailOrder.orderItemDetailList" :loading="isLoading" :showPagination="false" label="sản phẩm">
             <el-table-column :index="1" align="center" label="#" type="index" width="80" />
             <el-table-column align="left" label="Tên sản phẩm" prop="name">
               <template #default="scope">
                 <div class="flex items-center">
-                  <img :src="scope.row.productImage" alt="" height="60" width="60" />
+                  <img :src="scope.row.imageList[0]" alt="" height="60" width="60" />
                   <p class="ml-4">{{ scope.row.productName }}</p>
                 </div>
               </template>
             </el-table-column>
             <el-table-column align="right" label="Số lượng" prop="itemQuantity" width="150"></el-table-column>
-            <el-table-column align="right" label="Đơn giá" prop="totalPricePerProduct" width="250">
+            <el-table-column align="right" label="Đơn giá" prop="itemPrice" width="250">
               <template #default="scope">
-                <div class="text-sm font-medium">{{ userFormatNumber(scope.row.totalPricePerProduct) }}đ</div>
+                <div class="text-sm font-medium">{{ userFormatNumber(scope.row.itemPrice) }}đ</div>
               </template>
             </el-table-column>
           </base-table>
@@ -59,8 +59,8 @@
     </div>
     <template #footer>
       <div class="flex justify-end">
-        <base-button class="mr-4" type="plain">Quay lại</base-button>
-        <base-button type="primary"> Xác nhận</base-button>
+        <base-button type="plain" @click="handleClose">Quay lại</base-button>
+        <base-button v-if="detailOrder.status === 1" class="ml-4" type="primary"> Thanh toán ngay</base-button>
         <!--        <payment-stripe />-->
         <!--        <stripe />-->
       </div>
@@ -69,41 +69,46 @@
 </template>
 
 <script lang="ts" setup>
-  import PaymentStripe from '@/modules/cart/components/popup/PaymentStripe.vue'
-  import { useCartStore } from '@/modules/cart/store'
   import userFormatNumber from '@/composables/formatNumber'
-  import Stripe from '@/modules/cart/components/popup/Stripe.vue'
+  import { apiOrder } from '@/services'
+  import { useBaseStore } from '@/stores/base'
 
-  const cartStore = useCartStore()
-  const dataFake: Ref<Record<string, any>[]> = ref([
-    {
-      id: 0,
-      name: 'Laptop Asus Zenbook 14 OLED UX3402Z UX3402ZA-KM221W (14inch 90Hz/Intel Core i7 1260P/16GB/512GB SSD/Windows 11 Home/1.3kg)',
-      image:
-        'https://lh3.googleusercontent.com/rnIVOAhuK4DqaHOsT3vGKI_rdZTtfAbpW3klDiKfLfXDjrvjrBI7JLCOkNegNx5lXWU4uIkoBaeTIMQsrMngAPg0xDzvBSGz',
-      retailPrice: 25990000,
-      latestPrice: 20990000,
-      quantity: 2
-    },
-    {
-      id: 0,
-      name: 'Laptop Asus Zenbook 14 OLED UX3402Z UX3402ZA-KM221W (14inch 90Hz/Intel Core i7 1260P/16GB/512GB SSD/Windows 11 Home/1.3kg) ',
-      image:
-        'https://lh3.googleusercontent.com/rnIVOAhuK4DqaHOsT3vGKI_rdZTtfAbpW3klDiKfLfXDjrvjrBI7JLCOkNegNx5lXWU4uIkoBaeTIMQsrMngAPg0xDzvBSGz',
-      retailPrice: 25990000,
-      latestPrice: 20990000,
-      quantity: 2
-    }
-  ])
-  const getListCartSelected = computed<Record<string, any>[]>(() => {
-    return cartStore.cartItemSelected
+  interface IProps {
+    rowData: Record<string, any>
+  }
+
+  // const props = withDefaults(defineProps<{ orderId?: number }>(), {
+  //   orderId: 0
+  // })
+
+  const props = withDefaults(defineProps<IProps>(), {
+    rowData: () => ({} as Record<string, any>)
   })
 
-  const handleOpen = (): void => {
-    console.log()
+  const baseStore = useBaseStore()
+  const detailOrder: Ref<Record<string, any>> = ref({})
+  const isLoading: Ref<boolean> = ref(false)
+
+  const getOrderDetail = async (): Promise<void> => {
+    try {
+      console.log(props.rowData.orderId)
+      if (props.rowData.orderId) {
+        detailOrder.value = {}
+        isLoading.value = true
+        const rs = await apiOrder.getOrderDetailClient({ orderId: props.rowData.orderId })
+        detailOrder.value = rs.data
+        isLoading.value = false
+      }
+    } catch (e) {
+      isLoading.value = false
+      console.log(e)
+    }
+  }
+  const handleOpen = async (): Promise<void> => {
+    await getOrderDetail()
   }
   const handleClose = (): void => {
-    console.log()
+    baseStore.setOpenPopup(false, 'popup-payment-detail')
   }
 </script>
 

@@ -10,6 +10,7 @@
   import { useCartStore } from '@/modules/cart/store'
   import { useAuthStore } from '@/modules/auth/store'
   import type { IFormShipping } from '@/interfaces'
+  import Cookies from 'js-cookie'
 
   interface IProps {
     formCardShippingInfo: IFormShipping
@@ -76,7 +77,7 @@
         deliveryAddress: props.formCardShippingInfo.deliveryAddress
       }
       const rs = await apiOrder.createOrder(body)
-      const orderId = rs.data as string
+      const orderId = rs.data.toString()
       await createSessionCheckout(orderId)
       isLoading.value = false
     } catch (e) {
@@ -89,7 +90,7 @@
     try {
       isLoading.value = true
       const session = await apiOrder.createCheckoutSession(getListLineItem.value, orderId)
-      stripe.value.redirectToCheckout({ sessionId: session })
+      stripe.value.redirectToCheckout({ sessionId: session.id })
       isLoading.value = false
     } catch (e) {
       isLoading.value = false

@@ -114,7 +114,7 @@
   import { useBaseStore } from '@/stores/base'
   import PopupShippingInfo from '@/modules/cart/components/popup/PopupShippingInfo.vue'
   import type { IFormShipping } from '@/interfaces'
-  import PopupPaymentDetail from '@/modules/cart/components/popup/PopupPaymentDetail.vue'
+  import PopupPaymentDetail from '@/modules/account/components/popup/PopupPaymentDetail.vue'
   import { useAuthStore } from '@/modules/auth/store'
   import { forEach } from 'lodash-es'
   import { useCartStore } from '@/modules/cart/store'
