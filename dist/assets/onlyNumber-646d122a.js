@@ -1,1 +1,0 @@
-import{K as i}from"./index-5ca1291a.js";function r(o,f){const e=o.keyCode?o.keyCode:o.which;console.log(f),(e<48||e>57)&&e!==46&&o.preventDefault(),e===46&&i(f,".")&&o.preventDefault()}export{r as u};
