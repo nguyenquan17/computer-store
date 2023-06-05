@@ -178,7 +178,11 @@
     await cartStore.getDetailCart()
   })
   const getLengthCart = computed<number>(() => {
-    return cartStore.detailCart?.cartItemDetailList ? cartStore.detailCart.cartItemDetailList.length : 0
+    let itemQuantity = 0
+    forEach(cartStore.detailCart?.cartItemDetailList, item => {
+      itemQuantity += item.itemQuantity
+    })
+    return itemQuantity
   })
 
   const getListCart = computed<Record<string, any>[]>(() => {

@@ -89,6 +89,7 @@
   import { useAuthStore } from '@/modules/auth/store'
   import { ElMessage } from 'element-plus'
   import { useCartStore } from '@/modules/cart/store'
+  import { forEach } from 'lodash-es'
 
   const router = useRouter()
   const baseStore = useBaseStore()
@@ -129,10 +130,16 @@
   }
 
   const getLengthCart = computed<number>(() => {
+    // if (authStore.isLogin) {
+    //   return cartStore.detailCart?.cartItemDetailList ? cartStore.detailCart?.cartItemDetailList.length : 0
+    // }
+    let itemQuantity = 0
     if (authStore.isLogin) {
-      return cartStore.detailCart?.cartItemDetailList ? cartStore.detailCart?.cartItemDetailList.length : 0
+      forEach(cartStore.detailCart?.cartItemDetailList, item => {
+        itemQuantity += item.itemQuantity
+      })
     }
-    return 0
+    return itemQuantity
   })
 
   const handlePopoverMenu = (): void => {

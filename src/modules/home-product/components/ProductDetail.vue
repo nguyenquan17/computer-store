@@ -47,8 +47,8 @@
               <span class="text-xs text-secondary">-{{ useFormatNumber(dataDetailProductConvert.discount) }}%</span>
             </div>
             <div class="flex py-6">
-              <base-button class="mr-2 w-full">Mua ngay</base-button>
-              <base-button class="w-full" type="plain" @click="handleAddToCart">Thêm vào giỏ hàng</base-button>
+              <base-button class="mr-2 w-full" @click="handleAddToCart('redirect')">Mua ngay</base-button>
+              <base-button class="w-full" type="plain" @click="handleAddToCart('add')">Thêm vào giỏ hàng</base-button>
             </div>
             <div>
               - CPU: Apple M2
@@ -129,6 +129,7 @@
   import type { IProductDetail, IProductDetailConvert } from '@/interfaces'
 
   const route = useRoute()
+  const router = useRouter()
   const authStore = useAuthStore()
   const useConvertProductEntity = useConvertEntity()
   let thumbsSwiper = null
@@ -156,7 +157,7 @@
       console.log(e)
     }
   }
-  const handleAddToCart = async (): Promise<void> => {
+  const handleAddToCart = async (type: string): Promise<void> => {
     try {
       isLoading.value = true
       const params = {
@@ -170,6 +171,9 @@
           title: 'Đã thêm sản phẩm vào giỏ hàng',
           duration: 3000
         })
+        if (type === 'redirect') {
+          await router.push({ name: 'CartView' })
+        }
       }
       isLoading.value = false
     } catch (e) {
