@@ -96,26 +96,25 @@
       </template>
     </base-filter>
     <div class="px-6">
-      <transaction-withdraw-table
+      <TableProduct
         :data="dataTransactionWithDraw"
         :isLoading="isLoading"
         :query="query"
         @limit-change="handleLimitChange"
         @page-change="handlePageChange"
         @row-click="handleRowClick"
-      ></transaction-withdraw-table>
+      ></TableProduct>
     </div>
     <popup-add-product />
   </div>
 </template>
 
 <script lang="ts" setup>
-  import useFormatCurrency from '@/composables/formatCurrency'
   import useDisableTime from '@/composables/disableTime'
   import useOnlyNumber from '@/composables/onlyNumber'
   import useFormatNumberInput from '@/composables/formatNumberInput'
   import type { ITab, IQuery, ISort } from '@/interfaces'
-  import TransactionWithdrawTable from '@/modules/back-office/components/table/TransactionWithdrawTable.vue'
+  import TableProduct from '@/modules/back-office/components/table/TableProduct.vue'
   import { useBaseStore } from '@/stores/base'
   import PopupAddProduct from '@/modules/back-office/components/popup/PopupAddProduct.vue'
 
@@ -123,69 +122,8 @@
   const router = useRouter()
   const baseStore = useBaseStore()
 
-  const dataTransactionWithDraw: Ref<Record<string, any>[]> = ref([
-    {
-      id: 31576,
-      transactionType: 'WITHDRAW',
-      transactionDate: '2022-12-29T08:54:36.000+00:00',
-      transactionDay: '2022-12-29',
-      transactionMillisecond: 1672304076365,
-      currency: 'LYNK',
-      currencyName: 'LynKey',
-      network: 'ERC20',
-      networkName: 'Ethereum',
-      userId: 4,
-      fromAddress: '0xbbdcb6b53f1fd934bf6e6ff7da8648cc0a90b0f9',
-      toAddress: 'hshdhdhd',
-      transactionHash: null,
-      amount: 2000,
-      amountDisplay: '-2,109.70 LYNK',
-      transactionFee: 109.7,
-      amountToUsd: 53.4176848406832,
-      nonce: 0,
-      description: '',
-      status: 'PENDING',
-      accountTransactionId: null,
-      tokenUsdExchangeRate: 0.02532,
-      createdAt: '2022-12-29T08:54:36.000+00:00',
-      updatedAt: null,
-      rejectedAt: null,
-      rejectedReason: null,
-      isLimitAmount: 0,
-      username: 'huetransky@gmail.com',
-      fullName: 'Trần Thị Huế',
-      email: 'huetransky@gmail.com'
-    }
-  ])
-  const dataSummaryRequest: Ref<ISummaryRequest> = ref({
-    totalAmount: 0,
-    transactionType: '',
-    totalAmountUsd: 0
-  })
-  const dataRowTransactionWithdraw: Ref<ITransactionWithdraw> = ref({} as ITransactionWithdraw)
-  const tabs: Ref<ITab[]> = ref([
-    {
-      title: 'MAGIC',
-      value: 'MAGIC'
-    },
-    {
-      title: 'ETH',
-      value: 'ETH'
-    },
-    {
-      title: 'BNB',
-      value: 'BNB'
-    },
-    {
-      title: 'USDT',
-      value: 'USDT'
-    },
-    {
-      title: 'BUSD',
-      value: 'BUSD'
-    }
-  ])
-  const tabActive: Ref<string> = ref('MAGIC')
+  const dataProduct: Ref<Record<string, any>[]> = ref([{}])
+  const dataRowTransactionWithdraw: Ref<Record<string, any>> = ref({})
   const listSort: Ref<ISort[]> = ref([
     {
       title: 'Request date',
